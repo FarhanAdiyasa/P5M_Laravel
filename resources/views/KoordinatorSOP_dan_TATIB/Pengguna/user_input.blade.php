@@ -68,33 +68,30 @@
 
                                 <br>
                                 <div class="form-group">
-                                            <label for="nama_pengguna">Nama Pengguna</label>
-                                            <select name="nama_pengguna" class="form-select" style="width:100%" required>
-                                            <option value="null">-- Pilih Nama Pengguna --</option>
-                                        <?php
-                                            $kelas = array();                    
-                                            
-                                            $i=0;
-                                            foreach ($data as $d){
-                                            $i++;
-                                            if($data[$i-1]['struktur'] == 'Unit Pelayanan Teknis Informatika'){
-                                            array_push($kelas, $data[$i-1]['nama']);
-                                            }
+                                <label for="nama_pengguna">Nama Pengguna</label>
+                                <select name="nama_pengguna" class="form-select" style="width:100%" required>
+                                    <option value="null">-- Pilih Nama Pengguna --</option>
 
-                                            }
-                                            sort($kelas);
-                                            $arrayLength = count($kelas);
-                                            ?>
-                                            <?php
-                                            
-                                                for ($i = 0; $i < $arrayLength; $i++) {
-                                                if($kelas[$i] != $kelas[$i-1]  ){
-                                                    echo "<option value='" . $kelas[$i] . "'>" . $kelas[$i] . "</option>";
-                                                }
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
+                                    <?php
+                                    $kelas = [];
+                                    
+                                    $i = 0;
+                                    foreach ($data as $d) {
+                                        $i++;
+                                        if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika') {
+                                            array_push($kelas, $data[$i - 1]['nama']);
+                                        }
+                                    }
+
+                                    sort($kelas);
+                                    $uniqueKelas = array_unique($kelas);
+
+                                    foreach ($uniqueKelas as $kelasItem) {
+                                        echo "<option value='" . $kelasItem . "'>" . $kelasItem . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                                 <br>
 
                                 <div class="form-group">
