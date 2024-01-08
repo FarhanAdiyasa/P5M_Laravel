@@ -112,6 +112,13 @@
       </li>
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href='libur'>
+          <i class="bi bi-people"></i><span>Libur</span>
+         
+        </a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-postcard"></i><span>Absensi</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
