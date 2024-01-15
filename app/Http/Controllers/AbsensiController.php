@@ -162,7 +162,7 @@ public function getImportProgress(Request $request)
                             'nama' => $mahasiswa['nama'],
                             'jenis' => 'Murni',
                             'jumlah_jam' => $absen->Jumlah_Jam,
-                            'keterangan' => 'Rekap Jam Minus P5M Periode '.$startDate.' - '.$endDate->subDay(),
+                            'keterangan' => 'Rekap Jam Minus P5M Periode '.\Carbon\Carbon::parse($startDate)->toDateString().' - '.\Carbon\Carbon::parse($endDate->subDay())->toDateString(),
                             'tanggal' => now(),
                         ];
     
