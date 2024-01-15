@@ -18,11 +18,6 @@
   <!-- Template Main JS File -->
   <script src='assets/js/main.js'></script>
   <script type="text/javascript" src='assets/dataTables/datatables.min.js'></script>
-  <script>
-    $(function () {
-        $('.list_datatable').DataTable();
-    })
-  </script>
 </body>
 
 </html>
