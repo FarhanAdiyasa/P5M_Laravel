@@ -63,13 +63,13 @@
                                             <td>{{ $dm['nama'] }}</td>
                                             @foreach ($pelanggaran as $m)
                                             @php
-    $ischecked = '';
-    foreach ($get3tabel as $g) {
-        if ($g->id_pelanggaran == $m->id_pelanggaran && $dm['nim'] == $g->nim_mahasiswa && $tanggal == $g->tgl_transaksi) {
-            $ischecked = 'checked';
-        }
-    }
-@endphp
+                                        $ischecked = '';
+                                        foreach ($get3tabel as $g) {
+                                            if ($g->id_pelanggaran == $m->id_pelanggaran && $dm['nim'] == $g->nim_mahasiswa && $tanggal == $g->tgl_transaksi) {
+                                                $ischecked = 'checked';
+                                            }
+                                        }
+                                    @endphp
 
                                                 <td class="text-center">
                                                     <input type="checkbox" id="" name="" value="" {{ $ischecked }} disabled>

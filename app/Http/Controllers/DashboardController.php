@@ -24,11 +24,10 @@ class DashboardController extends Controller
         $model = collect(DB::select('EXEC sp_get_log'));
 
         $today = now()->format('Y-m-d');
-        $sudahP5M = P5M::whereDate('tgl_transaksi', $today)->exists();
 
 
 
-        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('latestWaktu', 'model', 'sudahP5M'));
+        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('latestWaktu', 'model'));
         
 
     }

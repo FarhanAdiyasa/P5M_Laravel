@@ -1,7 +1,10 @@
-
 @php
     $loggedInUsername = session('LoggedInUsername');
     $loggedInRole = session('LoggedInRole');
+@endphp
+
+@php
+    use Carbon\Carbon;
 @endphp
 
 @extends('KoordinatorSOP_dan_TATIB.layout.header')
@@ -21,32 +24,7 @@
             <!-- Left side columns -->
             <div class="col-lg-8">
                 <div class="row">
-                    <div class="col-6">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Reminder P5M</h5>
-                                @if ($sudahP5M)
-                                    <p>
-                                        Sudah P5M Hari Ini
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="#00FF00" class="bi bi-check2-all" viewBox="0 0 16 16">
-                                        <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0" />
-                                        <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708" />
-
-                                        </svg>
-                                    </p>
-                                @else
-                                    <p>
-                                        Belum P5M Hari Ini
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="#FF0000" class="bi bi-x-circle" viewBox="0 0 16 16">
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-
-                                        </svg>
-                                    </p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body text-center">
                                 <h5 class="card-title">Import Absensi Terakhir</h5>
@@ -54,7 +32,6 @@
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <div class="col-lg-4">
@@ -67,10 +44,10 @@
                         <div class="activity">
                             @foreach ($model->sortByDesc('tanggal')->take(10) as $item)
                                 @php
-                                    $activityDate = $item->tanggal->format('Y-m-d');
-                                    $today = now()->format('Y-m-d');
-                                    $yesterday = now()->subDay()->format('Y-m-d');
-                                    $displayDate = ($activityDate == $today) ? 'Today' : (($activityDate == $yesterday) ? 'Yesterday' : $activityDate);
+                                $activityDate = Carbon::parse($item->tanggal)->format('Y-m-d');
+                                $today = now()->format('Y-m-d');
+                                $yesterday = now()->subDay()->format('Y-m-d');
+                                $displayDate = ($activityDate == $today) ? 'Today' : (($activityDate == $yesterday) ? 'Yesterday' : $activityDate);
                                 @endphp
 
                                 <div class="activity-item d-flex">
@@ -82,11 +59,28 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="card">
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+                            <li><a class="dropdown-item filter-option" data-filter="Today" href="#">Today</a></li>
+                            <li><a class="dropdown-item filter-option" data-filter="This Month" href="#">This Month</a></li>
+                            <li><a class="dropdown-item filter-option" data-filter="This Year" href="#">This Year</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Rekap Pelanggaran Yang Dilakukan <span>/Today</span></h5>
+                        <div id="chart" style="min-height: 400px;"></div>
+                          
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
- 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
-

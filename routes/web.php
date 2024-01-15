@@ -59,7 +59,7 @@ Route::get('/pelanggaranedit/{id}',[PelanggaranController::class,'pelanggaran_ed
 Route::post('/pelanggaran/update',[PelanggaranController::class,'update']);
 Route::get('/pelanggaran/delete/{id}',[PelanggaranController::class,'delete']);
 
-Route::get('p5msop', [P5MController::class, 'p5msop']);
+Route::any('/p5msop', [P5MController::class, 'p5msop']);
 Route::post('/p5msop/tambah', [P5MController::class, 'tambah']);
 Route::post('p5mlihat', [P5MController::class, 'p5mlihat']);
 Route::get('history_lihat', [P5MController::class, 'p5msophistory']);

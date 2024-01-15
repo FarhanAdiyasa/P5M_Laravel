@@ -39,7 +39,7 @@
                         </th>
                     </table>
 
-                    <form action="{{ url('P5M/tambah') }}" method="post" name="pilih" id="pilih">
+                    <form action="{{ url('p5msop') }}" method="post" name="pilih" id="pilih">
                         @csrf
                         <label for="birthday">Kelas &nbsp:</label>
                         <select class="form-select" style="width:20%; display:inline;" name="dropdown">
