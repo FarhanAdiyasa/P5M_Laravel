@@ -59,15 +59,21 @@ Route::get('/pelanggaranedit/{id}',[PelanggaranController::class,'pelanggaran_ed
 Route::post('/pelanggaran/update',[PelanggaranController::class,'update']);
 Route::get('/pelanggaran/delete/{id}',[PelanggaranController::class,'delete']);
 
-Route::any('/p5msop', [P5MController::class, 'p5msop']);
+
+Route::get('/P5M/LoadPartialViewAbsen/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensi'])->name('partial.absen');
+Route::get('/P5M/LoadPartialViewAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensiMinus'])->name('partial.absen.minus');
+Route::get('/P5M/LoadPartialView/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialView'])->name('partial.p5m');
+
+Route::get('p5msop', [P5MController::class, 'p5msop']);
+
 Route::post('/p5msop/tambah', [P5MController::class, 'tambah']);
 Route::post('p5mlihat', [P5MController::class, 'p5mlihat']);
 Route::get('history_lihat', [P5MController::class, 'p5msophistory']);
 Route::any('laporan_jam_minus', [P5MController::class, 'laporanp5m']);
 
-Route::get('daftarAbsensi', [AbsensiController::class, 'index']);
+Route::get('daftarAbsensi', [AbsensiController::class, 'index'])->name('import');
 Route::post('/daftarAbsensi/import_excel', [AbsensiController::class, 'import_excel']);
-Route::any('laporan_absensi', [AbsensiController::class, 'soplapabsensi']);
+Route::get('laporan_absensi', [AbsensiController::class, 'soplapabsensi']);
 Route::any('laporanJamMinusAbsensi', [AbsensiController::class, 'soplapmnsabsen']);
 
 /*Koordinator Tingkat Route*/
@@ -80,6 +86,9 @@ Route::get('p5mtingkathistory', [P5MController::class, 'p5mtingkathistory']);
 Route::get('tingkatlapabsensi', [AbsensiController::class, 'tingkatlapabsensi']);
 Route::get('tingkatlapmnsabsen', [AbsensiController::class, 'tingkatlapmnsabsen']);
 
+
+Route::post('/import',[AbsensiController::class,'import']);
+Route::get('/getImportProgress', [AbsensiController::class, 'getImportProgress'])->name('progress');
 
 
 

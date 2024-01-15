@@ -57,20 +57,19 @@
   <br>
   <br>
   <br>
-  @if(session('error'))
-              <div class="alert alert-danger">
-                  <b>Opps!</b> {{session('error')}}
-              </div>
-              @endif
-
   <form class="polman-form-login" action="{{ route('actionlogin') }}" method="post">
   @csrf
 
           <h4>Masuk Akun</h4>
           <hr>
+          @if(session('error'))
+          <div class="alert alert-danger">
+              <b>Opps!</b> {{session('error')}}
+          </div>
+          @endif
           <div class="form-group">
-                  <label>Email</label>
-                  <input type="email" name="email" class="form-control" placeholder="email" required="">
+                  <label>Username</label>
+                  <input type="text" name="username" class="form-control" placeholder="username" required="">
             </div>
             <div class="form-group">
                 <label>Password</label>
