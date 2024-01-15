@@ -44,6 +44,11 @@ class PenggunaController extends Controller
     $kelas = $request->input("kelas");
 
     DB::statement('EXEC sp_insert_pengguna ?, ?, ?, ?', [$username,$nama_pengguna, $role, $kelas]);
+    $aktifitas = "Tambah Pengguna " . $nama_pengguna;
+    $tanggal =  now()->format('Y-m-d');
+
+DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+
         return redirect('user_lihat');
     }
 
@@ -77,6 +82,11 @@ class PenggunaController extends Controller
             $role = $request->input("role");
             $kelas = $request->input("kelas");    
         DB::statement('EXEC sp_update_pengguna ?, ?, ?, ?, ?, 1', [$id, $username,$nama_pengguna, $role, $kelas]);
+
+        $aktifitas = "Ubah Pengguna " . $nama_pengguna;
+        $tanggal =  now()->format('Y-m-d');
+    
+    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
     
         return redirect('user_lihat');
 }
@@ -86,6 +96,11 @@ class PenggunaController extends Controller
 
 
         DB::statement('EXEC sp_delete_pengguna ?', [$id]);
+
+        $aktifitas = "Hapus Pengguna " . $nama_pengguna;
+        $tanggal =  now()->format('Y-m-d');
+    
+    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
     
         return redirect('user_lihat');
