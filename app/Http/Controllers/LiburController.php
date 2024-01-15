@@ -6,18 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class LliburController extends Controller
+class LiburController extends Controller
 {
 
 
     public function index()
     {
-        $llibur = DB::select('EXEC sp_get_all_libur');
+        $libur = DB::select('EXEC sp_get_all_libur');
 
         return view('KoordinatorSOP_dan_TATIB/libur/libur_lihat', compact('libur'));
     }
 
-    public function llibur_input()
+    public function libur_input()
     {
         return view('KoordinatorSOP_dan_TATIB/libur/libur_input');
     }

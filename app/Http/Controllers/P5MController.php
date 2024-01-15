@@ -73,20 +73,17 @@ class P5MController extends Controller
 
     public function laporanp5m()
     {
-        $url = 'https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListMahasiswa?id_konsentrasi=3';
-        $dataMahasiswa = Http::get($url)->json();
+        $apiUrl = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListMahasiswa?id_konsentrasi=3";
 
-        $pelanggaran = DB::select('EXEC sp_get_all_pelanggaran');
+        $response = Http::get($apiUrl);
 
-        $p5m = DB::select('EXEC sp_get_all_p5m');
+        if ($response->successful()) {
+            $dataMahasiswa = $response->json();
 
-        $absen = DB::select('EXEC sp_get_all_absen');
-        $get3tabel = DB::select('EXEC sp_get_pelanggaran_p5m');
+            $kelasMahasiswa = collect($dataMahasiswa)->pluck('kelas')->unique()->values()->all();
 
-
-
-
-            return view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus', compact('dataMahasiswa', 'pelanggaran', 'p5m', 'get3tabel'));
+            return view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus', ['KelasMahasiswa' => $kelasMahasiswa]);
+        }
         
      }
 
