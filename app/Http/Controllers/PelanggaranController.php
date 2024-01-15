@@ -30,6 +30,11 @@ class PelanggaranController extends Controller
     
         // Assuming sp_insert_pelanggaran takes only two parameters, adjust this accordingly
         DB::statement('EXEC sp_insert_pelanggaran ?, ?', [$nama_pelanggaran, $jam_minus]);
+
+        $aktifitas = "Tambah Pelanggaran " . $nama_pelanggaran;
+        $tanggal =  now()->format('Y-m-d');
+    
+    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
     
         return redirect('pelanggaran');
     }
@@ -53,6 +58,11 @@ public function update(Request $request)
 
     DB::statement ('EXEC sp_update_pelanggaran ?, ?, ?', [$id, $nama_pelanggaran, $jam_minus]);
 
+    $aktifitas = "Ubah Pelanggaran " . $nama_pelanggaran;
+    $tanggal =  now()->format('Y-m-d');
+
+DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+
     return redirect('pelanggaran');
 }
 
@@ -60,6 +70,11 @@ public function update(Request $request)
     public function delete($id)
     {
         DB::statement('EXEC sp_delete_pelanggaran ?', [$id]);
+
+        $aktifitas = "Hapus Pelanggaran " . $nama_pelanggaran;
+        $tanggal =  now()->format('Y-m-d');
+    
+    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
         return redirect('pelanggaran');
     }

@@ -72,15 +72,6 @@
                                         <input type="text" class="form-control" name="id" value="{{ $pengguna->id }}" hidden>
                                     </div>
                                     <br>
-
-                                        <div class="form-group">
-                                    <label for="username">Username<span style="color: red">*</span></label>
-                                        <input type="text" class="form-control" name="username">
-                                        @error('username')
-                                        <small class="text-danger pl-3">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <br>
                                         
                                         <label for="nama_pengguna">Nama Pengguna</label>
                                         <select name="nama_pengguna" class="form-select" style="width:100%" required>

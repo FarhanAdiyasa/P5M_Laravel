@@ -10,7 +10,7 @@ class LiburController extends Controller
 {
 
 
-    public function index()
+    public function libur()
     {
         $libur = DB::select('EXEC sp_get_all_libur');
 

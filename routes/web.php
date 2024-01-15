@@ -9,6 +9,7 @@ use App\Http\Controllers\PelanggaranController;
 use App\Http\Controllers\P5MController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\ListController;
+use App\Http\Controllers\LiburController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,13 +50,7 @@ Route::get('/mahasiswaedit/{id}',[MahasiswaController::class,'mahasiswa_edit']);
 Route::post('/mahasiswa/update',[MahasiswaController::class,'update']);
 Route::get('/mahasiswa/delete/{id}',[MahasiswaController::class,'delete']);
 
-Route::get('list', [ListController::class, 'prodi']);
-Route::get('p4', [ListController::class, 'p4']);
-Route::get('tpm', [ListController::class, 'tpm']);
-Route::get('mi', [ListController::class, 'mi']);
-Route::get('mo', [ListController::class, 'mo']);
-Route::get('mk', [ListController::class, 'mk']);
-Route::get('tkbg', [ListController::class, 'tkbg']);
+Route::get('/libur', [LiburController::class, 'libur']);
 
 Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
 Route::get('/pelanggaraninput',[PelanggaranController::class,'pelanggaran_input']);
@@ -64,11 +59,13 @@ Route::get('/pelanggaranedit/{id}',[PelanggaranController::class,'pelanggaran_ed
 Route::post('/pelanggaran/update',[PelanggaranController::class,'update']);
 Route::get('/pelanggaran/delete/{id}',[PelanggaranController::class,'delete']);
 
+
 Route::get('/P5M/LoadPartialViewAbsen/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensi'])->name('partial.absen');
 Route::get('/P5M/LoadPartialViewAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensiMinus'])->name('partial.absen.minus');
 Route::get('/P5M/LoadPartialView/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialView'])->name('partial.p5m');
 
 Route::get('p5msop', [P5MController::class, 'p5msop']);
+
 Route::post('/p5msop/tambah', [P5MController::class, 'tambah']);
 Route::post('p5mlihat', [P5MController::class, 'p5mlihat']);
 Route::get('history_lihat', [P5MController::class, 'p5msophistory']);

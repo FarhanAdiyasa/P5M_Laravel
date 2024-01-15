@@ -25,13 +25,30 @@ class PenggunaController extends Controller
 
     function save (Request $request){
 
-        $username = $request->input("username");
+            // Retrieve the API data
+    $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
+    $apiData = json_decode(file_get_contents($url), true);
 
-        $nama_pengguna = $request->input("nama_pengguna");
+    // Get the username from API based on 'nama_pengguna'
+    $nama_pengguna = $request->input("nama_pengguna");
+    $apiUser = collect($apiData)->firstWhere('nama', $nama_pengguna);
+
+    if (!$apiUser) {
+        // Handle the case where the user is not found in the API data
+        return redirect('user_lihat');
+    }
+
+    // Use the API username or adjust this based on the actual API response structure
+    $username = $apiUser['username'];
     $role = $request->input("role");
     $kelas = $request->input("kelas");
 
     DB::statement('EXEC sp_insert_pengguna ?, ?, ?, ?', [$username,$nama_pengguna, $role, $kelas]);
+    $aktifitas = "Tambah Pengguna " . $nama_pengguna;
+    $tanggal =  now()->format('Y-m-d');
+
+DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+
         return redirect('user_lihat');
     }
 
@@ -46,17 +63,32 @@ class PenggunaController extends Controller
 }
 
     function update(Request $request){
-        $id = $request->input("id");
-        $username = $request->input("username");
-
-        $nama_pengguna = $request->input("nama_pengguna");
-        $role = $request->input("role");
-        $kelas = $request->input("kelas");
-    
+            // Retrieve the API data
+            $id = $request->input("id");
+            $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
+            $apiData = json_decode(file_get_contents($url), true);
+        
+            // Get the username from API based on 'nama_pengguna'
+            $nama_pengguna = $request->input("nama_pengguna");
+            $apiUser = collect($apiData)->firstWhere('nama', $nama_pengguna);
+        
+            if (!$apiUser) {
+                // Handle the case where the user is not found in the API data
+                return redirect('user_lihat');
+            }
+        
+            // Use the API username or adjust this based on the actual API response structure
+            $username = $apiUser['username'];
+            $role = $request->input("role");
+            $kelas = $request->input("kelas");    
         DB::statement('EXEC sp_update_pengguna ?, ?, ?, ?, ?, 1', [$id, $username,$nama_pengguna, $role, $kelas]);
+
+        $aktifitas = "Ubah Pengguna " . $nama_pengguna;
+        $tanggal =  now()->format('Y-m-d');
+    
+    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
     
         return redirect('user_lihat');
-    return redirect('user_lihat');
 }
 
 
@@ -64,6 +96,11 @@ class PenggunaController extends Controller
 
 
         DB::statement('EXEC sp_delete_pengguna ?', [$id]);
+
+        $aktifitas = "Hapus Pengguna " . $nama_pengguna;
+        $tanggal =  now()->format('Y-m-d');
+    
+    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
     
         return redirect('user_lihat');

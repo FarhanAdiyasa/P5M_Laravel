@@ -65,20 +65,33 @@
                             <br/>
                             <form role="form" action="{{ url('pengguna/insert') }}" method="post">
                                 @csrf
-                                    <label for="username">Username<span style="color: red">*</span></label>
-                                    <input type="text" class="form-control" name="username">
-                                    @error('username')
-                                    <small class="text-danger pl-3">{{ $message }}</small>
-                                    @enderror
-                                </div>
+
                                 <br>
                                 <div class="form-group">
-                                <label for="nama_pengguna">Nama Pengguna<span style="color: red">*</span></label>
-                                    <input type="text" class="form-control" name="nama_pengguna">
-                                    @error('nama_pengguna')
-                                    <small class="text-danger pl-3">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                <label for="nama_pengguna">Nama Pengguna</label>
+                                <select name="nama_pengguna" class="form-select" style="width:100%" required>
+                                    <option value="null">-- Pilih Nama Pengguna --</option>
+
+                                    <?php
+                                    $kelas = [];
+                                    
+                                    $i = 0;
+                                    foreach ($data as $d) {
+                                        $i++;
+                                        if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika') {
+                                            array_push($kelas, $data[$i - 1]['nama']);
+                                        }
+                                    }
+
+                                    sort($kelas);
+                                    $uniqueKelas = array_unique($kelas);
+
+                                    foreach ($uniqueKelas as $kelasItem) {
+                                        echo "<option value='" . $kelasItem . "'>" . $kelasItem . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                                 <br>
 
                                 <div class="form-group">
