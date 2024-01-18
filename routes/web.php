@@ -57,6 +57,8 @@ Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
     Route::post('/import',[AbsensiController::class,'import']);
 Route::get('/getImportProgress', [AbsensiController::class, 'getImportProgress'])->name('progress');
 
+Route::get('//download/template', [AbsensiController::class, 'downloadTemplate'])->name('download.template');
+
 
 
 });

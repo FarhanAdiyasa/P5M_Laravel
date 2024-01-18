@@ -37,28 +37,32 @@
                 @if (session('error'))
                     <div class="alert alert-warning">{{ session('error') }}</div>
                 @endif
-                <div class="row">
-
-                    <div class="col-4">
-                        <form method="post" action="{{ url('/import') }}" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                            <div class="row">
-                                <div class="col-7">
-                                    <label>Pilih file excel</label>
-                                    <div class="form-group">
-                                        <input type="file" name="file" required="required">
+                <div class="container">
+                    <div class="row" >
+                            <form method="post" action="{{ url('/import') }}" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Pilih file excel</label>
+                                            <div class="form-group">
+                                                <input type="file" name="file" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="col-2 mt-3">
+                                            <button type="submit" onclick="handleFormSubmission()" class="btn btn-primary">Import</button>
+                                        </div>
+                                        <div class="col-7 mt-3 text-right">
+                                            File excel di export dari mesin absensi <a href="{{ url('/download/template') }}">download template</a> untuk menyesuaikan. Pastikan file excel berformat xlsx!.
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-2 mt-3 mx-5">
-                                    <button type="submit" onclick="handleFormSubmission()" class="btn btn-primary">Import</button>
-                                    </div>
-                            </div>
-                        </form>
+                              
+                                
+                            </form>
                     </div>
-
-                    <!-- Add your table or other content here -->
-
                 </div>
+
 
             </div>
         </div>
