@@ -38,6 +38,7 @@
 <link href="{{ asset('assets/css/fontawesome/css/all.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/css/sweetalert2.min.css') }}" rel="stylesheet" />
 <!-- Include SweetAlert CSS -->
+@yield('style')
 {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"> --}}
 <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>

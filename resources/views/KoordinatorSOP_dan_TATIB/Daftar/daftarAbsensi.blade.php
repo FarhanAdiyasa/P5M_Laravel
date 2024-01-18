@@ -1,7 +1,19 @@
 @extends('KoordinatorSOP_dan_TATIB.layout.header')
+@section('style')
+<style>
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7); 
+    z-index: 9999;
+}
 
+</style>
+@endsection
 @section('konten')
-
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -42,17 +54,6 @@
                                     </div>
                             </div>
                         </form>
-
-                        {{-- <!-- Progress Bar -->
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <!-- End Progress Bar -->
-
-                        <!-- Progress Message -->
-                        <div id="progressMessage"></div>
-                        <!-- End Progress Message --> --}}
-
                     </div>
 
                     <!-- Add your table or other content here -->
@@ -62,36 +63,16 @@
             </div>
         </div>
     </section>
-
-</main><!-- End #main -->
+    <div id="overlay" style="display:none;"></div>
+</main>
 
 @endsection
 
+
 @section('script')
 <script>
-    function updateProgress() {
-    console.log("jalan");
-    $.ajax({
-        url: '/getImportProgress',
-        method: 'GET',
-        success: function (data) {
-            console.log(data); // Corrected from $data to data
-            // Update your progress bar
-            var progressValue = (data.importedRows / data.totalRows) * 100;
-            $('.progress-bar').width(progressValue + "%").attr("aria-valuenow", progressValue);
-
-            // Show progress message
-            $('#progressMessage').text(data.importedRows + " out of " + data.totalRows + " records imported");
-        },
-        error: function (error) {
-            console.log(error); // Corrected from $data to error
-            console.error('Error fetching import progress:', error);
-        }
-    });
-}
-
     function handleFormSubmission() {
-        setInterval(updateProgress, 1000);
+        document.getElementById('overlay').style.display = 'block';
     }
 </script>
 @endsection
