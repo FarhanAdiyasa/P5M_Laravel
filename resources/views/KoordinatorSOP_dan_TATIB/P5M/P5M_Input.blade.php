@@ -53,11 +53,16 @@
                                 sort($kelas);
                                 $arrayLength = count($kelas);
                             ?>
-                            @for ($i = 0; $i < $arrayLength; $i++)
-                                @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
-                                    <option value="{{ $kelas[$i] }}">{{ $kelas[$i] }}</option>
+                               @if (session('role') != "KOORDINATOR TINGKAT")
+                                    @for ($i = 0; $i < $arrayLength; $i++)
+                                        @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
+                                            <option value="{{ $kelas[$i] }}">{{ $kelas[$i] }}</option>
+                                        @endif
+                                    @endfor
+                                @else
+                                <option value="{{ Auth::user()->kelas }}">{{ Auth::user()->kelas }}</option>
                                 @endif
-                            @endfor
+                           
                         </select>
 
                         <input type="submit" id="cetak" name="cetak" class="btn btn-primary" value="Pilih"/>

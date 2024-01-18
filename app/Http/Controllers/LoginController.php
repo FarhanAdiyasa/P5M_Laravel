@@ -30,7 +30,6 @@ class LoginController extends Controller
         if ($response->successful()) {
             $dataKaryawan = $response->json();
         }
-        $check =  User::Where(["username"=>$request->input('username')])->get();
         $check2 = User::where("username", $request->input('username'))->firstOrFail();
         if($check2){
             foreach ($dataKaryawan as $kry) {
@@ -39,8 +38,6 @@ class LoginController extends Controller
                 if ($usn != "" && $usn == $check2->username) {
                     if (!isset($kry['password']) || $kry['password'] == $request->input('password')) {
                         Auth::login($check2);
-                        $roles = $check->pluck('role')->toArray();
-                        session(['roles' => $roles]);
                         return redirect('sso'); 
 
                     }

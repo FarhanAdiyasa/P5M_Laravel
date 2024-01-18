@@ -96,7 +96,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link collapsed" asp-controller="Login" asp-action="Logout">
+              <a class="nav-link collapsed" href="{{route('actionlogout')}}">
                   <i class="bi bi-box-arrow-in-right"></i>
                   <span>Logout</span>
               </a>
@@ -122,17 +122,15 @@
       </div>
       <div id="collapse0" class="collapse mt-2" aria-labelledby="heading0" data-parent="#accordionApp">
           <div class="card-body">
-              <ul class="list-group">
-                @if(session()->has('roles'))
-                @foreach(session('roles') as $role)
-                <a href="/pelanggaran">
-                  <li class="list-group-item list-group-item-action my-1" style="cursor: pointer;">
-                   Login sebagai {{ $role }}
-                  </li>
-                </a>
+            <ul class="list-group">
+                @foreach($roles as $role)
+                    <a href="{{ route('ssoLog', ['role' => $role]) }}">
+                        <li class="list-group-item list-group-item-action my-1" style="cursor: pointer;">
+                            Login sebagai {{ $role }}
+                        </li>
+                    </a>
                 @endforeach
-               @endif
-              </ul>
+            </ul>            
           </div>
       </div>
    </div>
