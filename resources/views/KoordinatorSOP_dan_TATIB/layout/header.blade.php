@@ -37,6 +37,14 @@
 <link href="{{ asset('assets/css/fontawesome/css/fontawesome.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/css/fontawesome/css/all.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/css/sweetalert2.min.css') }}" rel="stylesheet" />
+<!-- Include SweetAlert CSS -->
+{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"> --}}
+<script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+
 
 <!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
@@ -210,18 +218,14 @@
 <!-- Vendor JS Files -->
 <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/chart.js/chart.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
 <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+<!-- Include SweetAlert JS -->
+
 
 <!-- Template Main JS Files -->
 <script src="{{ asset('assets/js/main.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('assets/dataTables/datatables.min.js') }}"></script>
-<script>
-    $(function () {
-        $('.list_datatable').DataTable();
-    })
-</script>
+@yield('script')
