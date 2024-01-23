@@ -35,6 +35,8 @@ Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('acti
 /*Koordinator SOP dan TATIB Route*/
 
 Route::get('sop', [DashboardController::class, 'sop']);
+Route::get('/sop/download', [DashboardController::class, 'downloadAktifitas']);
+
 
 Route::get('user_lihat', [PenggunaController::class, 'index']);
 Route::get('/penggunainput',[PenggunaController::class,'pengguna_input']);

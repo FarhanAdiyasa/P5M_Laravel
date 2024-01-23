@@ -76,6 +76,10 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
          <!--    <img src='assets/img/profile-img.jpg' alt="Profile" class="rounded-circle"> -->
+           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                      {{ Auth::user()->nama_pengguna }}
+                  </a>
+
 
           </a><!-- End Profile Iamge Icon -->
         </li><!-- End Profile Nav -->
@@ -84,6 +88,7 @@
     </nav><!-- End Icons Navigation -->
 
   </header><!-- End Header -->
+
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">

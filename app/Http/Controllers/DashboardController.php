@@ -9,6 +9,8 @@ use App\Models\Absen; // Assuming LoginUser is your model
 use App\Models\P5M; // Assuming LoginUser is your model
 use App\Models\log; 
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 
 class DashboardController extends Controller
@@ -22,37 +24,94 @@ class DashboardController extends Controller
 
 
         $model = collect(DB::select('EXEC sp_get_log'));
-
         $today = now()->format('Y-m-d');
 
+        $startDate = now()->startOfDay(); // Set a default start date (e.g., today's start)
+        $endDate = now()->endOfDay();
+        $result = $this->getTotalPelanggaranData($startDate, $endDate);
+        $resultnim = $this->GetNimPelanggaranData($startDate, $endDate);
+        $response = $this->downloadAktifitas();
 
-
-        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('latestWaktu', 'model'));
+        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('latestWaktu', 'model', 'result', 'resultnim','response'));
         
 
     }
 
-    public function loadChart(Request $request)
+    public function downloadAktifitas()
     {
-        $startDate = $request->input('startDate');
-        $endDate = $request->input('endDate');
+        $data = DB::select('EXEC sp_get_log'); // Corrected stored procedure call
+        
 
+        // Extracting the 'tanggal' and 'aktifitas' columns from the result
+        $formattedData = array_map(function ($item) {
+            return [
+                'tanggal' => $item->tanggal,
+                'aktifitas' => $item->aktifitas,
+            ];
+        }, $data);
+    
+        $jsonData = json_encode($formattedData, JSON_PRETTY_PRINT);
+    
+        $response = response($jsonData)
+            ->header('Content-Type', 'application/json')
+            ->header('Content-Disposition', 'attachment; filename=sistemP5M_aktifitas.txt');
+    
+        return $response;
+    }
+
+    public function loadChart($startDate, $endDate)
+    {
         // Truncate time part from startDate and endDate
-        $startDate = date('Y-m-d 00:00:00', strtotime($startDate));
-        $endDate = date('Y-m-d 23:59:59', strtotime($endDate));
+        $startDate = Carbon::parse($startDate)->startOfDay();
+        $endDate = Carbon::parse($endDate)->endOfDay();
 
         $result = $this->getTotalPelanggaranData($startDate, $endDate);
 
-        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat.chart_pelanggaran', ['result' => $result]);
+        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('result'));
     }
 
     private function getTotalPelanggaranData($startDate, $endDate)
     {
-        $result = DB::select("SELECT * FROM dbo.GetTotalPelanggaran(?, ?)", [$startDate, $endDate]);
+        // Set the end time to 23:59:59
+        $endDate = Carbon::parse($endDate)->endOfDay();
 
-        // Process the results if needed
+        // Using raw query to call the SQL function
+        $result = DB::select('SELECT * FROM dbo.GetTotalPelanggaran(?, ?)', [$startDate, $endDate->addDay()]);
 
-        return $result;
+        // Create a new array to store the calculated results
+        $calculatedResults = [];
+
+        // Calculate total pelanggaran
+        foreach ($result as $item) {
+            $calculatedResults[] = [
+                'nama_pelanggaran' => $item->nama_pelanggaran,
+                'total_pelanggaran_dilakukan' => $item->total_pelanggaran_dilakukan,
+            ];
+        }
+
+        return $calculatedResults;
+    }
+
+    private function GetNimPelanggaranData($startDate, $endDate)
+    {
+        // Set the end time to 23:59:59
+        $endDate = Carbon::parse($endDate)->endOfDay();
+
+        // Using raw query to call the SQL function
+        $result = DB::select('SELECT TOP 5 * FROM dbo.GetNimPelanggaran(?, ?)', [$startDate, $endDate->addDay()]);
+
+        // Create a new array to store the calculated results
+        $calculatedResults = [];
+
+        // Calculate total pelanggaran
+        foreach ($result as $item) {
+            $calculatedResults[] = [
+                'nama_pelanggaran' => $item->nama_pelanggaran,
+                'total_pelanggaran_dilakukan' => $item->total_pelanggaran_dilakukan
+            ];
+        }
+
+        return $calculatedResults;
     }
 
     
