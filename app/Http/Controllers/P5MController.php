@@ -153,6 +153,11 @@ class P5MController extends Controller
                  }
              }
          }
+         $aktifitas = "Melakukan P5M";
+         $tanggal =  now()->format('Y-m-d');
+     
+        DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+     
      
          return redirect('history_lihat')->with('pesan_success', ' dibuat');
      }
