@@ -11,6 +11,7 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\LiburController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +98,8 @@ Route::get('p5mtingkathistory', [P5MController::class, 'p5mtingkathistory']);
 
 Route::get('tingkatlapabsensi', [AbsensiController::class, 'tingkatlapabsensi']);
 Route::get('tingkatlapmnsabsen', [AbsensiController::class, 'tingkatlapmnsabsen']);
+Route::get('/LoadChart/{startDate}/{endDate}', [DashboardController::class, 'getTotalPelanggaranData']);
+Route::get('/LoadChartNim/{startDate}/{endDate}', [DashboardController::class, 'GetNimPelanggaranData']);
 
 
 

@@ -2,25 +2,6 @@
     use Carbon\Carbon;
 @endphp
 
-@php
-// Function to generate a random color
-function getRandomColor() {
-    $letters = '0123456789ABCDEF';
-    $color = '#';
-    for ($i = 0; $i < 6; $i++) {
-        $color .= $letters[rand(0, 15)];
-    }
-    return $color;
-}
-
-// Convert the result array to a collection
-$resultCollection = collect($result);
-
-// Generate an array of random background colors for each data point
-$backgroundColors = array_map(function () {
-    return getRandomColor();
-}, range(1, count($resultCollection)));
-@endphp
 
 @extends('KoordinatorSOP_dan_TATIB.layout.header')
 
@@ -56,16 +37,14 @@ $backgroundColors = array_map(function () {
                             <li class="dropdown-header text-start">
                                 <h6>Filter</h6>
                             </li>
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                            <li><a class="dropdown-item pl" href="#">Today</a></li>
+                            <li><a class="dropdown-item pl" href="#">This Month</a></li>
+                            <li><a class="dropdown-item pl" href="#">This Year</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Rekap Pelanggaran Yang Dilakukan <span>/Today</span></h5>
+                        <h5 class="card-title card-pl">Rekap Pelanggaran Yang Dilakukan <span>/Today</span></h5>
                         <div id="chart">
-                            <!-- Include your chart here -->
-                            <canvas id="myChart" height="310"></canvas>
                         </div>
                     </div>
                 </div>
@@ -80,7 +59,7 @@ $backgroundColors = array_map(function () {
                     <div class="card-body">
                         <h5 class="card-title">Recent Activity </h5>
                         <div class="activity">
-                            @foreach ($model->sortByDesc('tanggal')->take(10) as $item)
+                            @foreach ($model->sortByDesc('tanggal')->take(5) as $item)
                                 @php
                                 $activityDate = Carbon::parse($item->tanggal)->format('Y-m-d');
                                 $today = now()->format('Y-m-d');
@@ -103,16 +82,14 @@ $backgroundColors = array_map(function () {
                             <li class="dropdown-header text-start">
                                 <h6>Filter</h6>
                             </li>
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                            <li><a class="dropdown-item nim" href="#">Today</a></li>
+                            <li><a class="dropdown-item nim" href="#">This Month</a></li>
+                            <li><a class="dropdown-item nim" href="#">This Year</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Rekap Jam Minus</h5>
+                        <h5 class="card-title card-nim">Pelanggaran Banyak Dilakukan Oleh<span>| This Month</span></h5>
                         <div id="nimChart">
-                            <!-- Include your doughnut chart here -->
-                            <canvas id="nimChartCanvas" height="200"></canvas>
                         </div>
                     </div>
                 </div>
@@ -123,14 +100,121 @@ $backgroundColors = array_map(function () {
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        loadPartialView("Today");
+        function loadPartialView(filter) {
+        var startDate, endDate;
+        var filterText;
+        if (filter == "Today") {
+            startDate = new Date();
+            endDate = startDate;
+            filterText = "/Today";
+        } else if (filter == "This Month") {
+            startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+            filterText = "/This Month";
+        } else if (filter == "This Year") {
+            startDate = new Date(new Date().getFullYear(), 0, 1);
+            endDate = new Date(new Date().getFullYear(), 11, 31);
+            filterText = "/This Year";
+        }
 
+        var url = '/LoadChart/' + startDate.toISOString().split('T')[0] + '/' + endDate.toISOString().split('T')[0];
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (data) {
+                $('#chart').html(data);
+                
+                $('.card-pl span').text(filterText);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+    document.querySelectorAll('.pl').forEach(item => {
+        item.addEventListener('click', function () {
+            // Get the selected filter value
+            const selectedFilter = this.innerHTML;
+
+            // Call the loadPartialView function with the selected filter
+            loadPartialView(selectedFilter);
+        });
+    });
+    </script>
+    <script>
+        loadPartialViewNim("Today");
+        function loadPartialViewNim(filter) {
+        var startDate, endDate;
+        var filterText;
+        if (filter == "Today") {
+            startDate = new Date();
+            endDate = startDate;
+            filterText = "/Today";
+        } else if (filter == "This Month") {
+            startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+            filterText = "/This Month";
+        } else if (filter == "This Year") {
+            startDate = new Date(new Date().getFullYear(), 0, 1);
+            endDate = new Date(new Date().getFullYear(), 11, 31);
+            filterText = "/This Year";
+        }
+
+        var url = '/LoadChartNim/' + startDate.toISOString().split('T')[0] + '/' + endDate.toISOString().split('T')[0];
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (data) {
+                $('#nimChart').html(data);
+                
+                $('.card-nim span').text(filterText);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+    document.querySelectorAll('.nim').forEach(item => {
+        item.addEventListener('click', function () {
+            // Get the selected filter value
+            const selectedFilter = this.innerHTML;
+
+            // Call the loadPartialView function with the selected filter
+            loadPartialViewNim(selectedFilter);
+        });
+    });
+    </script>
+    
 <script>
-     function downloadAktifitas() {
+    function formatJSON(data) {
+    var replacer = function(key, value) {
+        if (typeof value === 'string') {
+            return value.replace(/\n/g, '\\n');
+        }
+        return value;
+    };
+    return JSON.stringify(data, replacer, 4);  // Use 4 spaces for indentation
+}
+function downloadAktifitas() {
     document.getElementById('downloadButton').addEventListener('click', function () {
         // Assuming you have the data available in your Blade view
-        var data = @json($response);
+        var jsonString = @json($response);
 
-        // Create a Blob from the data
+        // Parse the JSON string into a JavaScript object
+        var data = JSON.parse(jsonString.original);
+
+        // Iterate through the array and adjust the date format
+        data.forEach(function(item) {
+            item.tanggal = new Date(item.tanggal).toISOString();
+        });
+
+        // Create a Blob from the modified data
         var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'text/plain' });
 
         // Create a link element to trigger the download
@@ -146,6 +230,7 @@ $backgroundColors = array_map(function () {
         document.body.removeChild(a);
     });
 }
+
 </script>
 
 @endsection
