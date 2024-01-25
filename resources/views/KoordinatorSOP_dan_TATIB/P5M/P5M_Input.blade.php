@@ -39,29 +39,29 @@
                         </th>
                     </table>
 
-                    <form action="{{ url('p5msop') }}" method="post" name="pilih" id="pilih">
-                        @csrf
-                        <label for="birthday">Kelas &nbsp:</label>
-                        <select class="form-select" style="width:20%; display:inline;" name="dropdown">
-                            <?php
-                                $kelas = array();
-                                $i = 0;
-                                foreach ($dataMahasiswa as $dm){
-                                    $i++;
-                                    array_push($kelas, $dm['kelas']);
-                                }
-                                sort($kelas);
-                                $arrayLength = count($kelas);
-                            ?>
-                            @for ($i = 0; $i < $arrayLength; $i++)
-                                @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
-                                    <option value="{{ $kelas[$i] }}">{{ $kelas[$i] }}</option>
-                                @endif
-                            @endfor
-                        </select>
+                    @php
+                        $kelasDipilih = session('kelas_dipilih');
+                    @endphp
 
-                        <input type="submit" id="cetak" name="cetak" class="btn btn-primary" value="Pilih"/>
-                    </form>
+                    <form action="{{ url('p5msop') }}" method="post" name="pilih" id="pilih">
+                    @csrf
+                    <label for="birthday">Kelas &nbsp:</label>
+                    <select class="form-select" style="width:20%; display:inline;" name="dropdown">
+                        <?php
+                            $kelas = array_unique(array_column($dataMahasiswa, 'kelas'));
+                            $selectedKelas = request('dropdown'); // Ambil nilai yang diposting
+                        ?>
+                        @foreach ($kelas as $kelasOption)
+                            @php
+                                $isSelected = $kelasOption == $selectedKelas ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $kelasOption }}" {{ $isSelected }}>{{ $kelasOption }}</option>
+                        @endforeach
+                    </select>
+
+                    <input type="submit" id="cetak" name="cetak" class="btn btn-primary" value="Pilih"/>
+                </form>
+
 
                     <form role="form" action="{{ url('p5msop/tambah') }}" id="formP5M" method="post">
                         @csrf

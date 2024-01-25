@@ -170,7 +170,7 @@
             </a>
           </li>
 		  <li>
-            <a href='history_lihat'>
+            <a href='pilihkls'>
               <i class="bi bi-circle"></i><span>History P5M</span>
             </a>
           </li>

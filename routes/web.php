@@ -66,7 +66,11 @@ Route::get('/P5M/LoadPartialViewAbsen/{filterValue}/{startDate}/{endDate}', [Abs
 Route::get('/P5M/LoadPartialViewAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensiMinus'])->name('partial.absen.minus');
 Route::get('/P5M/LoadPartialView/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialView'])->name('partial.p5m');
 
-Route::get('p5msop', [P5MController::class, 'p5msop']);
+Route::any('p5msop', [P5MController::class, 'p5msop']);
+
+Route::get('pilihkls', [P5MController::class, 'pilih_kelas']);
+Route::get('/pilihkls/{kelas}', [P5MController::class, 'pilih_tanggal']);
+
 
 Route::post('/p5msop/tambah', [P5MController::class, 'tambah']);
 Route::post('p5mlihat', [P5MController::class, 'p5mlihat']);

@@ -1,5 +1,3 @@
-
-
 @extends('KoordinatorSOP_dan_TATIB.layout.header')
 
 @section('konten')
@@ -9,7 +7,7 @@
     <div class="pagetitle">
         <br>
         <h1>Pertemuan 5 Menit</h1>
-        <br> 
+        <br>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('index.html') }}">Home</a></li>
@@ -25,10 +23,10 @@
             <div class="card recent-sales overflow-auto">
 
                 <div class="card-body">
-                    <br> 
-                    @php 
+                    <br>
+                    @php
                         $tanggal = request()->input('tanggalTransaksi');
-                        $kelasHistory = request()->input('kelasHistory');
+                        $kelasHistory = request()->input('kelas');
                     @endphp
                     <table>
                         <tr>
@@ -40,7 +38,7 @@
                             <td>{{ $kelasHistory }}</td>
                         </tr>
                     </table>
-                    <form role="form" action="{{ url('P5M/tambah/') }}" method="post">  
+                    <form role="form" action="{{ url('P5M/tambah/') }}" method="post">
                         @csrf <!-- Add CSRF token -->
                         <table class="table table-bordered datatable">
                             <thead>
@@ -56,28 +54,29 @@
                             <tbody>
                                 @php $i = 0; @endphp
                                 @foreach ($dataMahasiswa as $dm)
-                                    @if($kelasHistory == $dm['kelas'])
-                                        <tr>
-                                            <td class="text-center">@php $i++; echo $i; @endphp</td>
-                                            <td class="text-center">{{ $dm['nim'] }}</td>
-                                            <td>{{ $dm['nama'] }}</td>
-                                            @foreach ($pelanggaran as $m)
+                                @if($dm['kelas'])
+                                    <tr>
+                                        <td class="text-center">@php $i++; echo $i; @endphp</td>
+                                        <td class="text-center">{{ $dm['nim'] }}</td>
+                                        <td>{{ $dm['nama'] }}</td>
+                                        
+                                        @foreach ($pelanggaran as $m)
                                             @php
-                                        $ischecked = '';
-                                        foreach ($get3tabel as $g) {
-                                            if ($g->id_pelanggaran == $m->id_pelanggaran && $dm['nim'] == $g->nim_mahasiswa && $tanggal == $g->tgl_transaksi) {
-                                                $ischecked = 'checked';
-                                            }
-                                        }
-                                    @endphp
-
-                                                <td class="text-center">
-                                                    <input type="checkbox" id="" name="" value="" {{ $ischecked }} disabled>
-                                                </td>
-                                            @endforeach
-                                        </tr>
-                                    @endif
-                                @endforeach
+                                                $ischecked = '';
+                                                foreach ($get3tabel as $g) {
+                                                    if ($g->id_pelanggaran == $m->id && $dm['nim'] == $g->nim_mahasiswa && $tanggal == $g->tgl_transaksi) {
+                                                        $ischecked = 'checked';
+                                                    }
+                                                }
+                                            @endphp
+                                            
+                                            <td class="text-center">
+                                                <input type="checkbox" id="" name="" value="" {{ $ischecked }} disabled>
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endif
+                            @endforeach
                             </tbody>
                         </table>
 
