@@ -1,7 +1,19 @@
 @extends('KoordinatorSOP_dan_TATIB.layout.header')
+@section('style')
+<style>
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7); 
+    z-index: 9999;
+}
 
+</style>
+@endsection
 @section('konten')
-
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -25,73 +37,46 @@
                 @if (session('error'))
                     <div class="alert alert-warning">{{ session('error') }}</div>
                 @endif
-                <div class="row">
-
-                    <div class="col-4">
-                        <form method="post" action="{{ url('/import') }}" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                            <div class="row">
-                                <div class="col-7">
-                                    <label>Pilih file excel</label>
-                                    <div class="form-group">
-                                        <input type="file" name="file" required="required">
+                <div class="container">
+                    <div class="row" >
+                            <form method="post" action="{{ url('/import') }}" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Pilih file excel</label>
+                                            <div class="form-group">
+                                                <input type="file" name="file" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="col-2 mt-3">
+                                            <button type="submit" onclick="handleFormSubmission()" class="btn btn-primary">Import</button>
+                                        </div>
+                                        <div class="col-7 mt-3 text-right">
+                                            File excel di export dari mesin absensi <a href="{{ url('/download/template') }}">download template</a> untuk menyesuaikan. Pastikan file excel berformat xlsx!.
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-2 mt-3 mx-5">
-                                    <button type="submit" onclick="handleFormSubmission()" class="btn btn-primary">Import</button>
-                                    </div>
-                            </div>
-                        </form>
-
-                        {{-- <!-- Progress Bar -->
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <!-- End Progress Bar -->
-
-                        <!-- Progress Message -->
-                        <div id="progressMessage"></div>
-                        <!-- End Progress Message --> --}}
-
+                              
+                                
+                            </form>
                     </div>
-
-                    <!-- Add your table or other content here -->
-
                 </div>
+
 
             </div>
         </div>
     </section>
-
-</main><!-- End #main -->
+    <div id="overlay" style="display:none;"></div>
+</main>
 
 @endsection
 
+
 @section('script')
 <script>
-    function updateProgress() {
-    console.log("jalan");
-    $.ajax({
-        url: '/getImportProgress',
-        method: 'GET',
-        success: function (data) {
-            console.log(data); // Corrected from $data to data
-            // Update your progress bar
-            var progressValue = (data.importedRows / data.totalRows) * 100;
-            $('.progress-bar').width(progressValue + "%").attr("aria-valuenow", progressValue);
-
-            // Show progress message
-            $('#progressMessage').text(data.importedRows + " out of " + data.totalRows + " records imported");
-        },
-        error: function (error) {
-            console.log(error); // Corrected from $data to error
-            console.error('Error fetching import progress:', error);
-        }
-    });
-}
-
     function handleFormSubmission() {
-        setInterval(updateProgress, 1000);
+        document.getElementById('overlay').style.display = 'block';
     }
 </script>
 @endsection

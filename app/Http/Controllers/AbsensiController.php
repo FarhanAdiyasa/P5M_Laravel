@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -29,6 +30,17 @@ class AbsensiController extends Controller
         return view('KoordinatorSOP_dan_TATIB/Daftar/daftarAbsensi', compact('absen'));    
 
     }
+    public function downloadTemplate()
+    {
+        $templatePath = 'tesabsensi.xlsx';
+    
+        if (Storage::disk('public')->exists($templatePath)) {
+            return response()->download(storage_path('app/public/' . $templatePath), 'tesabsensi.xlsx');
+        } else {
+            return response()->json(['error' => 'Template not found.'], 404);
+        }
+    }
+    
     public function import(Request $request)
 {
     try {
@@ -74,6 +86,7 @@ class AbsensiController extends Controller
             return redirect()->route('import')->with('error', 'Kolom Tidak Sesuai');
         }
         $request->session()->forget('importProgress');
+        echo '<script type="text/javascript">removeBlur();</script>';
         return redirect()->route('import')->with('success', 'Import '.$importedRows." Baris Berhasil");
        
     } catch (Exception $e) {

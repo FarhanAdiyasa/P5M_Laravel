@@ -25,13 +25,18 @@
                         <form method="get" class="row">
                             <div class="form-group col-2" id="filterAfterChoose">
                                 <select class="form-select" name="filterValue" id="filterValue" required>
-                                    @forelse ($KelasMahasiswa as $kelas)
-                                    {
-                                        <option value="{{$kelas}}">{{$kelas}}</option>
-                                    }
-                                    @empty
-                                        
-                                    @endforelse (var $kelas in $KelasMahasiswa)
+                                    @if (session('role') != "KOORDINATOR TINGKAT")
+                                        @forelse ($KelasMahasiswa as $kelas)
+                                        {
+                                            <option value="{{$kelas}}">{{$kelas}}</option>
+                                        }
+                                        @empty
+                                            
+                                        @endforelse (var $kelas in $KelasMahasiswa)
+                                    @else
+                                    <option value="{{ Auth::user()->kelas }}">{{ Auth::user()->kelas }}</option>
+                                    @endif
+                                  
                                 </select>
                             </div>
                             <div class="form-group col-1">

@@ -100,6 +100,7 @@
                                         <option value="null">-- Pilih Role --</option>
                                         <option value="KOORDINATOR SOP dan TATIB">KOORDINATOR SOP dan TATIB</option>
                                         <option value="KOORDINATOR TINGKAT">KOORDINATOR TINGKAT</option>
+                                        <option value="SEKRETARIS PRODI">SEKRETARIS PRODI</option>
                                     </select>
                                 </div>
                                 <br>
