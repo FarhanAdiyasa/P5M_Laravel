@@ -35,13 +35,13 @@
                                     </div>
                                     <br>
                                     <div class="form-group">
-                                        <label for="nama_pelanggaran">Nama Pelanggaran</label>
+                                        <label for="nama_pelanggaran">Nama Pelanggaran<span style="color: red">*</span></label>
                                         <input type="text" class="form-control" name="nama_pelanggaran" value="{{ $pelanggaran->nama_pelanggaran }}" required>
                                     </div>
                                     <br>
                                     <div class="form-group">
-                                        <label for="jam_minus">Jam Minus</label>
-                                        <input type="text" class="form-control" name="jam_minus" value="{{ $pelanggaran->jam_minus }}" required>
+                                        <label for="jam_minus">Jam Minus<span style="color: red">*</span></label>
+                                        <input type="number" class="form-control" name="jam_minus" value="{{ $pelanggaran->jam_minus }}" required>
                                     </div>
                                     <br>
 

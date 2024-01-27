@@ -34,6 +34,11 @@
                                     <td class="text-center">{{ $tgl->tanggal }}</td>
                                     <td class="text-center"> 
                                         <!-- Tambahkan tombol atau form aksi sesuai kebutuhan -->
+                                        <form action="{{ url('P5M/HistoryP5M') }}" method="post" name="cetak" id="cetak">
+                                            @csrf
+                                            <button class="btn btn-info fa fa-list" type="submit">Lihat</button>
+                                            <input type="hidden" name="tanggalTransaksi" value="{{ $tgl->tanggal }}"/>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

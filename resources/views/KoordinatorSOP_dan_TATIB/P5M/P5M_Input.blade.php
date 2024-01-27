@@ -23,21 +23,7 @@
                 <div class="card-body">
                     <br>
 
-                    @php
-                        $sql = "SELECT kelas FROM pengguna WHERE nama_pengguna = ? and status = 1";
-                        $where = Cookie::get('nama');
-                        $machine = DB::table('pengguna')->select('kelas')->where('nama_pengguna', $where)->where('status', 1)->get();
-                        $DdlKelas = '';
-                        foreach ($machine as $m) {
-                            $DdlKelas = $m->kelas;
-                        }
-                    @endphp
 
-                    <table>
-                        <th>
-                            <p> Kelas : {{ $DdlKelas }}</p>
-                        </th>
-                    </table>
 
                     @php
                         $kelasDipilih = session('kelas_dipilih');
