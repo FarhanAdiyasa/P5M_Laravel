@@ -250,21 +250,19 @@ $sub = 0;
                 {
                     extend: 'excelHtml5',
                     text: 'Export to Excel',
-                    className: 'btn-excel' // Custom class for styling
+                    className: 'btn-excel'
                 }
             ],
             initComplete: function () {
-                // Add custom styles to the Excel export button
                 $('.btn-excel').css({
                     'background-color': '#4caf50',
                     'color': '#fff',
-                    'border': '1px solid #4caf50',
+                    'border': '1px solid #4caf50',  
                     'border-radius': '3px',
                     'padding': '5px 10px',
                     'cursor': 'pointer'
                 });
 
-                // Hover effect for the Excel export button
                 $('.btn-excel').hover(function () {
                     $(this).css({
                         'background-color': '#45a049',

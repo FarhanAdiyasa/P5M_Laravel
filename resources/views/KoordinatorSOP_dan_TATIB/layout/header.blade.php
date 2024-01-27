@@ -38,6 +38,7 @@
 <link href="{{ asset('assets/css/fontawesome/css/all.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/css/sweetalert2.min.css') }}" rel="stylesheet" />
 <!-- Include SweetAlert CSS -->
+@yield('style')
 {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"> --}}
 <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
@@ -70,8 +71,13 @@
 
    
     <nav class="header-nav ms-auto">
+      
       <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
 
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              Selamat Datang {{ Auth::user()->nama_pengguna }}
+          </a>
         <li class="nav-item d-block d-lg-none">
           <a class="nav-link nav-icon search-bar-toggle " href="#">
             <i class="bi bi-search"></i>
@@ -104,50 +110,55 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed " href='sop'>
+        <a class="nav-link collapsed " href="{{url('sop')}}">
           <i class="bi bi-bar-chart-line"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
+      @if (session('role') == "KOORDINATOR SOP dan TATIB")
       <li class="nav-item">
-        <a class="nav-link collapsed" href='user_lihat'>
+        <a class="nav-link collapsed" href="{{url('user_lihat')}}">
           <i class="bi bi-person-rolodex"></i><span>Pengguna</span>
+        
+        </a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{url('libur')}}">
+          <i class="bi bi-people"></i><span>Libur</span>
          
         </a>
       </li>
+      @endif
+          
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href='mahasiswa'>
+        <a class="nav-link collapsed" href="{{url('mahasiswa')}}">
           <i class="bi bi-people"></i><span>Mahasiswa</span>
          
         </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href='libur'>
-          <i class="bi bi-people"></i><span>Libur</span>
-         
-        </a>
-      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-postcard"></i><span>Absensi</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          @if (session('role') == "KOORDINATOR SOP dan TATIB")
           <li>
             
-            <a href='daftarAbsensi'>
+            <a href="{{url('daftarAbsensi')}}">
               <i class="bi bi-circle"></i><span>Import Absensi</span>
             </a>
           </li>
-            <a href='laporan_absensi'>
+          @endif
+            <a href="{{url('laporan_absensi')}}">
               <i class="bi bi-circle"></i><span>Laporan Absensi</span>
             </a>
           </li>
           <li>
-            <a href='laporanJamMinusAbsensi'>
+            <a href="{{url('laporanJamMinusAbsensi')}}">
               <i class="bi bi-circle"></i><span>Laporan Jam Minus Absensi</span>
             </a>
           </li>
@@ -159,18 +170,21 @@
           <i class="bi bi-ui-checks-grid"></i><span>Pelanggaran</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          @if(session('role') == "KOORDINATOR SOP dan TATIB")
           <li>
-            <a href='pelanggaran'>
+            <a href="{{url('pelanggaran')}}">
               <i class="bi bi-circle"></i><span>Kelola Pelanggaran</span>
             </a>
           </li>
+          @endif
+          @if ( session('role') != "SEKRETARIS PRODI")
           <li>
-            <a href='p5msop'>
+            <a href="{{url('p5msop')}}">
               <i class="bi bi-circle"></i><span>P5M</span>
             </a>
           </li>
 		  <li>
-            <a href='pilihkls'>
+            <a href='history_lihat'>
               <i class="bi bi-circle"></i><span>History P5M</span>
             </a>
           </li>
@@ -183,7 +197,7 @@
       </li><!-- End Tables Nav -->
 	  
 	  <li class="nav-item">
-        <a class="nav-link collapsed" href="sso" >
+        <a class="nav-link collapsed" href="{{url('sso')}}" >
           <i class="bi bi-file-earmark-person"></i>
           <span>Halaman SSO</span>
         </a>

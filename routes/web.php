@@ -30,20 +30,12 @@ Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
 Route::get('sso', [SSOController::class, 'index'])->name('sso')->middleware('auth');
+Route::get('ssoLog/{role}', [SSOController::class, 'ssoLog'])->name('ssoLog')->middleware('auth');
 Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
 
 /*Koordinator SOP dan TATIB Route*/
 
-Route::get('sop', [DashboardController::class, 'sop']);
-Route::get('/sop/download', [DashboardController::class, 'downloadAktifitas']);
 
-
-Route::get('user_lihat', [PenggunaController::class, 'index']);
-Route::get('/penggunainput',[PenggunaController::class,'pengguna_input']);
-Route::post('/pengguna/insert',[PenggunaController::class,'save']);
-Route::get('/penggunaedit/{id}',[PenggunaController::class,'pengguna_edit']);
-Route::post('/pengguna/update',[PenggunaController::class,'update']);
-Route::get('/pengguna/delete/{id}',[PenggunaController::class,'delete']);
 
 Route::get('mahasiswa', [MahasiswaController::class, 'index']);
 Route::get('/mahasiswainput',[MahasiswaController::class,'mahasiswa_input']);
@@ -51,15 +43,6 @@ Route::post('/mahasiswa/insert',[MahasiswaController::class,'save']);
 Route::get('/mahasiswaedit/{id}',[MahasiswaController::class,'mahasiswa_edit']);
 Route::post('/mahasiswa/update',[MahasiswaController::class,'update']);
 Route::get('/mahasiswa/delete/{id}',[MahasiswaController::class,'delete']);
-
-Route::get('/libur', [LiburController::class, 'libur']);
-
-Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
-Route::get('/pelanggaraninput',[PelanggaranController::class,'pelanggaran_input']);
-Route::post('/pelanggaran/insert',[PelanggaranController::class,'save']);
-Route::get('/pelanggaranedit/{id}',[PelanggaranController::class,'pelanggaran_edit']);
-Route::post('/pelanggaran/update',[PelanggaranController::class,'update']);
-Route::get('/pelanggaran/delete/{id}',[PelanggaranController::class,'delete']);
 
 
 Route::get('/P5M/LoadPartialViewAbsen/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensi'])->name('partial.absen');
@@ -92,9 +75,6 @@ Route::get('p5mtingkathistory', [P5MController::class, 'p5mtingkathistory']);
 Route::get('tingkatlapabsensi', [AbsensiController::class, 'tingkatlapabsensi']);
 Route::get('tingkatlapmnsabsen', [AbsensiController::class, 'tingkatlapmnsabsen']);
 
-
-Route::post('/import',[AbsensiController::class,'import']);
-Route::get('/getImportProgress', [AbsensiController::class, 'getImportProgress'])->name('progress');
 
 
 
