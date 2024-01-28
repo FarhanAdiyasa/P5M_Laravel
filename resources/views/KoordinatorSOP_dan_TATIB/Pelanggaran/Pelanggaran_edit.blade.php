@@ -36,7 +36,7 @@
                                     <br>
                                     <div class="form-group">
                                         <label for="nama_pelanggaran">Nama Pelanggaran<span style="color: red">*</span></label>
-                                        <input type="text" class="form-control" name="nama_pelanggaran" value="{{ $pelanggaran->nama_pelanggaran }}" required>
+                                        <input type="text" class="form-control" name="nama_pelanggaran" value="{{ $pelanggaran->nama_pelanggaran }}" pattern="[A-Za-z\s]+" title="Hanya huruf yang diperbolehkan" required>
                                     </div>
                                     <br>
                                     <div class="form-group">
@@ -45,9 +45,13 @@
                                     </div>
                                     <br>
 
-                                    <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">Close</button>
-                                    &nbsp; &nbsp;
-                                    <button type="submit" class="btn btn-primary m-2">Save</button>
+                                    <button type="reset" onclick="myFunction()" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+              <script>
+                function myFunction() {
+                  window.location.href = "{{ url('pelanggaran') }}";
+                }
+              </script>                                    &nbsp; &nbsp;
+                                    <button type="submit" class="btn btn-primary m-2">Simpan</button>
                                 </form>
                             </div>
                         </div>

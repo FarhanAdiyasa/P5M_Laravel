@@ -82,9 +82,9 @@
                                                 $i = 0;
                                                 foreach ($data as $d) {
                                                     $i++;
-                                                    if ($data[$i-1]['struktur'] == 'Unit Pelayanan Teknis Informatika') {
-                                                        array_push($kelas, $data[$i-1]['nama']);
-                                                    }
+                                                    if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika' || $data[$i - 1]['struktur'] == 'Prodi MI') {
+                                                array_push($kelas, $data[$i - 1]['nama']);
+                                            }
                                                 }
                                                 sort($kelas);
                                                 $arrayLength = count($kelas);
@@ -218,7 +218,7 @@
             }
         });
 
-        if (selectedRole === 'KOORDINATOR SOP dan TATIB') {
+        if (selectedRole === 'KOORDINATOR SOP dan TATIB' || selectedRole === 'SEKRETARIS PRODI') {
         //$('.kelas-field').hide(); // Hide the field when role is "KOORDINATOR SOP dan TATIB"
         $('select[name="kelas"]').val('Semua kelas');
     } else {

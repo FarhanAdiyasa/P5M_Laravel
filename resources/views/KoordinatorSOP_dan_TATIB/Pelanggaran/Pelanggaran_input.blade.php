@@ -35,7 +35,7 @@
               @csrf
               <div class="form-group">
                 <label for="nama_pelanggaran">Nama Pelanggaran<span style="color: red">*</span></label>
-                <input type="text" class="form-control" name="nama_pelanggaran" required>
+                <input type="text" class="form-control" name="nama_pelanggaran" pattern="[A-Za-z\s]+" title="Hanya huruf yang diperbolehkan"required>
                 @error('nama_pelanggaran')
                   <small class="text-danger pl-3">{{ $message }}</small>
                 @enderror

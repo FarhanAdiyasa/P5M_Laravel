@@ -82,8 +82,14 @@
             var startDateObj = new Date(startDate);
             var endDateObj = new Date(endDate);
             if (endDateObj < startDateObj) {
-                swal("Peringatan!", "Tanggal Awal harus lebih besar dari Tanggal Akhir", "warning");
-                $("#endDate").val('');
+                Swal.fire({
+                            icon: 'warning',
+                            title: 'Peringatan!',
+                            text: 'Tanggal Akhir harus lebih besar dari Tanggal Awal',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                                        $("#endDate").val('');
             }
         });
         // Fungsi untuk memuat partial view

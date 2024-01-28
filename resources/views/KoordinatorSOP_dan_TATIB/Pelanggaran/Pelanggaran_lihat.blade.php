@@ -52,6 +52,7 @@
                             <td>{{ $m->nama_pelanggaran }}</td>
                             <td>{{ $m->jam_minus }} jam</td>
                             <td> 
+                                
                                 <a href="{{ url('pelanggaranedit/'.$m->id) }}" class="btn" style="color: #0275d8">
                                     <i class="fa fa-edit"></i>
                                 </a>
@@ -64,6 +65,30 @@
                     @endforeach
                 </tbody>
             </table>
+            @if(session('success'))
+                                <script>
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Data berhasil ditambahkan.',
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    });
+                                </script>
+                                @endif
+
+                                @if(session('update'))
+                                <script>
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Data berhasil diubah.',
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    });
+                                </script>
+                                @endif
+
             @if(session('delete'))
                                 <script>
                                     Swal.fire({

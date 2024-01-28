@@ -79,10 +79,10 @@
                                         $i = 0;
                                         foreach ($data as $d) {
                                             $i++;
-                                            if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika') {
+                                            if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika' || $data[$i - 1]['struktur'] == 'Prodi MI') {
                                                 array_push($kelas, $data[$i - 1]['nama']);
                                             }
-                                        }
+                                                                                    }
 
                                         sort($kelas);
                                         $uniqueKelas = array_unique($kelas);
@@ -103,7 +103,7 @@
 
                                 <div class="form-group">
                                     <label for="role">Role<span style="color: red">*</span></label>
-                                    <select name="role" class="form-select" style="width:100%" required required id="role" onchange="cekExist()">
+                                    <select name="role" class="form-select" style="width:100%" required id="role" onchange="cekExist()">
                                         <option value="">-- Pilih Role --</option>
                                         <option value="KOORDINATOR SOP dan TATIB">KOORDINATOR SOP dan TATIB</option>
                                         <option value="KOORDINATOR TINGKAT">KOORDINATOR TINGKAT</option>
@@ -186,6 +186,23 @@
         $('.kelas-field').hide();
         changeRole();
         changePengguna();
+
+        $('.validasi').on('click', function (event) {
+        event.preventDefault();
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Yakin data ingin dihapus?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to delete route with the correct parameter
+                window.location.href = "{{ url('pengguna/CheckUserExistence') }}/" + id;
+            }
+        });
+    });
     });
 
     const cekExist = (selectedUsername = null) => {
@@ -195,8 +212,36 @@
             selectedUsername = $('#username').val();
         }
 
+        $.ajax({
+        url: '/Pengguna/CheckUserExistence',
+        type: 'POST',
+        data: { username: selectedUsername, role: selectedRole },
+        success: function (result) {
+            if (result.exists) {
+                Swal.fire({
+                    title: "Error",
+                    text: "User with the same username and role already exists.",
+                    icon: "error",
+                    buttons: {
+                        confirm: {
+                            text: "OK",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-danger",
+                            closeModal: true
+                        }
+                    }
+                });
+                $('#penggunaForm')[0].reset();
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
         
-        if (selectedRole === 'KOORDINATOR SOP dan TATIB') {
+        if (selectedRole === 'KOORDINATOR SOP dan TATIB' || selectedRole === 'SEKRETARIS PRODI') {
             $('select[name="kelas"]').val('Semua kelas');
         }
     }

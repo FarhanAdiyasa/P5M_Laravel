@@ -42,8 +42,10 @@ Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
     Route::get('/penggunaedit/{id}',[PenggunaController::class,'pengguna_edit']);
     Route::post('/pengguna/update',[PenggunaController::class,'update']);
     Route::get('/pengguna/delete/{id}',[PenggunaController::class,'delete']);
-    Route::post('/pengguna/check-user-existence', [PenggunaController::class, 'checkUserExistence']);
-    Route::post('/pengguna/check-user-existence-edit', [PenggunaController::class, 'checkUserExistenceEdit']);
+
+    Route::post('/checkUserExistence', [PenggunaController::class, 'checkUserExistence']);
+    Route::post('/checkUserExistenceEdit', [PenggunaController::class, 'checkUserExistenceEdit']);
+
     Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
     Route::get('/pelanggaraninput',[PelanggaranController::class,'pelanggaran_input']);
     Route::post('/pelanggaran/insert',[PelanggaranController::class,'save']);
@@ -58,6 +60,7 @@ Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
     Route::get('/download/template', [AbsensiController::class, 'downloadTemplate'])->name('download.template');
 
 });
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('sso', [SSOController::class, 'index'])->name('sso');
@@ -104,6 +107,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/LoadChartNim/{startDate}/{endDate}', [DashboardController::class, 'GetNimPelanggaranData']);
 });  
+
 
 
 

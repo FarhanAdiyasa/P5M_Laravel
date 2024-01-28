@@ -93,23 +93,7 @@
                                             </tr>
                                         @endif
                                     @else
-                                        {{-- @php $no++; @endphp
 
-                                        <tr>
-                                            <td class="text-center">
-                                                @php $i++; echo $i; @endphp
-                                            </td>
-                                            <td class="text-center">{{ $dm['nim'] }}</td>
-                                            <td>{{ $dm['nama'] }}</td>
-
-                                            @foreach ($pelanggaran as $m)
-                                                <td class="text-center">
-                                                    <input type="checkbox" id="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
-                                                        name="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
-                                                        value="{{ $m->jam_minus }}">
-                                                </td>
-                                            @endforeach
-                                        </tr> --}}
                                     @endif
                                 @endforeach
                             </tbody>
@@ -125,6 +109,8 @@
         </div><!-- End Recent Sales -->
 
     </section>
+
+    
 
 </main><!-- End #main -->
 
