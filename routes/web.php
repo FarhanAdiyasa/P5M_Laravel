@@ -64,6 +64,33 @@ Route::get('/getImportProgress', [AbsensiController::class, 'getImportProgress']
 Route::get('/download/template', [AbsensiController::class, 'downloadTemplate'])->name('download.template');
 
 
+Route::get('sop', [DashboardController::class, 'sop'])->name("idx");
+Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
+    Route::get('user_lihat', [PenggunaController::class, 'index'])->name("p.index");
+    Route::get('/penggunainput',[PenggunaController::class,'pengguna_input']);
+    Route::post('/pengguna/insert',[PenggunaController::class,'save']);
+    Route::get('/penggunaedit/{id}',[PenggunaController::class,'pengguna_edit']);
+    Route::post('/pengguna/update',[PenggunaController::class,'update']);
+    Route::get('/pengguna/delete/{id}',[PenggunaController::class,'delete']);
+
+
+
+    Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
+    Route::get('/pelanggaraninput',[PelanggaranController::class,'pelanggaran_input']);
+    Route::post('/pelanggaran/insert',[PelanggaranController::class,'save']);
+    Route::get('/pelanggaranedit/{id}',[PelanggaranController::class,'pelanggaran_edit']);
+    Route::post('/pelanggaran/update',[PelanggaranController::class,'update']);
+    Route::get('/pelanggaran/delete/{id}',[PelanggaranController::class,'delete']);
+
+    Route::get('/libur', [LiburController::class, 'libur']);
+    Route::post('/import',[AbsensiController::class,'import']);
+Route::get('/getImportProgress', [AbsensiController::class, 'getImportProgress'])->name('progress');
+
+Route::get('/download/template', [AbsensiController::class, 'downloadTemplate'])->name('download.template');
+
+
+
+});
 
 });
 
@@ -106,4 +133,7 @@ Route::get('p5mtingkathistory', [P5MController::class, 'p5mtingkathistory']);
 Route::get('tingkatlapabsensi', [AbsensiController::class, 'tingkatlapabsensi']);
 Route::get('tingkatlapmnsabsen', [AbsensiController::class, 'tingkatlapmnsabsen']);
 Route::get('/LoadChart/{startDate}/{endDate}', [DashboardController::class, 'getTotalPelanggaranData']);
+
 Route::get('/LoadChartNim/{startDate}/{endDate}', [DashboardController::class, 'GetNimPelanggaranData']);
+
+

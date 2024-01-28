@@ -3,6 +3,7 @@
     Halaman Login
   </title> <link rel="stylesheet" href='Styles/Style.css'>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--===============================================================================================-->	
     <link rel="icon" type="image/png" href='assets_login/images/icons/icon.ico'>
@@ -35,12 +36,6 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" crossorigin="anonymous" href='https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU'>
         
-    <!-- Main CSS -->
-    <link rel="stylesheet" type="text/css" href='assets/css/main.css'>
-        
-    <!-- Animation CSS -->
-    <link rel="stylesheet" type="text/css" href='assets/css/vendor/aos.css'>
-
   </head>
       
   <body style="background-repeat: no-repeat; background-size: cover; background-image: url('assets_login/images/IMG_Background.jpg');">
@@ -75,8 +70,9 @@
                 Copyright © 2023 - MI Politeknik Astra
             </div>
 
-  <button id="btnLogin" class="btn btn-primary btn-block" 
-  style="color: white; width: 100%; margin-top: 10px; margin-bottom: 10px;">Log In</button>
+
+  <button type="button" onclick="daftarakun(event)" class="btn btn-primary btn-block" style="color: white; width: 100%; margin-top: 10px; margin-bottom: 10px;">Log In</button>
+
   </form>
     </div>
     </div>
@@ -86,16 +82,64 @@
   </body>
     
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/assets_login/vendor/animsition/js/animsition.min.js"></script>
-    <script src="~/assets_login/vendor/bootstrap/js/popper.js"></script>
-    <script src="~/assets_login/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/assets_login/vendor/select2/select2.min.js"></script>
-    <script src="~/assets_login/vendor/daterangepicker/moment.min.js"></script>
-    <script src="~/assets_login/vendor/daterangepicker/daterangepicker.js"></script>
-    <script src="~/assets_login/vendor/countdowntime/countdowntime.js"></script>
-    <script src="~/assets_login/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- Include SweetAlert2 or use an alternative -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+  <script>
+    function daftarakun(event) {
+       event.preventDefault();
+   var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+       // Collect data from the form
+       var username = $('[name="username"]').val();
+       var katasandi = $('[name="password"]').val();
+
+       var formData =  {
+       username: username,
+       password: katasandi,
+       }
+       
+   var data = JSON.stringify(formData); 	
+       $.ajax({
+     url: '{{ route("actionlogin") }}',
+           method: 'POST',
+     headers: {
+       'X-CSRF-TOKEN': csrfToken
+     },
+           data: data,
+     dataType: 'json', 
+       contentType: 'application/json', 
+     success: function(response) {
+       if(response.success === true){
+         Swal.fire({
+         icon: "success",
+         title: response.message,
+         showConfirmButton: false,
+         timer: 2000
+       }).then(() => {
+        window.location.href = response.redirect_url;
+         
+       });
+       }else{
+                   Swal.fire({
+         icon: "error",
+         title: response.message,
+         showConfirmButton: false,
+         timer: 2000
+       });
+       }
+       
+           },
+     error: function(xhr, status, error, response) {
+       console.log(response);  	
+       console.log(xhr);  	
+       console.log(status); // Log the status
+       console.error(error); // Log the error
+     }
+       });
+   }
+</script>
+
 
   </body>
   </html>

@@ -26,13 +26,9 @@ class DashboardController extends Controller
         $model = collect(DB::select('EXEC sp_get_log'));
         $today = now()->format('Y-m-d');
 
-        $startDate = now()->startOfDay(); // Set a default start date (e.g., today's start)
-        $endDate = now()->endOfDay();
-        $result = $this->getTotalPelanggaranData($startDate, $endDate);
-        $resultnim = $this->GetNimPelanggaranData($startDate, $endDate);
         $response = $this->downloadAktifitas();
 
-        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('latestWaktu', 'model', 'result', 'resultnim','response'));
+        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('latestWaktu', 'model', 'response'));
         
 
     }
@@ -58,19 +54,7 @@ class DashboardController extends Controller
     
         return $response;
     }
-
-    public function loadChart($startDate, $endDate)
-    {
-        // Truncate time part from startDate and endDate
-        $startDate = Carbon::parse($startDate)->startOfDay();
-        $endDate = Carbon::parse($endDate)->endOfDay();
-
-        $result = $this->getTotalPelanggaranData($startDate, $endDate);
-
-        return view('KoordinatorSOP_dan_TATIB/dashboard_lihat', compact('result'));
-    }
-
-    private function getTotalPelanggaranData($startDate, $endDate)
+    public function getTotalPelanggaranData($startDate, $endDate)
     {
         // Set the end time to 23:59:59
         $endDate = Carbon::parse($endDate)->endOfDay();
@@ -88,11 +72,10 @@ class DashboardController extends Controller
                 'total_pelanggaran_dilakukan' => $item->total_pelanggaran_dilakukan,
             ];
         }
-
-        return $calculatedResults;
+        return view("KoordinatorSOP_dan_TATIB/partial_chart/_chartPelanggaran", compact(['calculatedResults']));
     }
 
-    private function GetNimPelanggaranData($startDate, $endDate)
+    public function GetNimPelanggaranData($startDate, $endDate)
     {
         // Set the end time to 23:59:59
         $endDate = Carbon::parse($endDate)->endOfDay();
@@ -110,8 +93,7 @@ class DashboardController extends Controller
                 'total_pelanggaran_dilakukan' => $item->total_pelanggaran_dilakukan
             ];
         }
-
-        return $calculatedResults;
+        return view("KoordinatorSOP_dan_TATIB/partial_chart/_chartNimPelanggaran", compact(['calculatedResults']));
     }
 
     
