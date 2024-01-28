@@ -14,7 +14,7 @@ class SSOController extends Controller
     public function index()
     {
         $usn = Auth::user()->username;
-        $roles = User::where("username", $usn)->pluck("role")->toArray();
+        $roles = User::where("username", $usn)->where("status", 1)->pluck("role")->toArray();
     
         return view('sso', ['roles' => $roles]);
     }

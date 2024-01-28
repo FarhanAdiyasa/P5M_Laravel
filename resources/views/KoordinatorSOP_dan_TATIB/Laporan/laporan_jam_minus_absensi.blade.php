@@ -87,6 +87,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<!-- Link Script Swal -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Link CSS Swal -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+
 <!--End Export-->
 <!-- DataTables JS -->
 
@@ -100,7 +106,13 @@
             var startDateObj = new Date(startDate);
             var endDateObj = new Date(endDate);
             if (endDateObj < startDateObj) {
-                swal("Peringatan!", "Tanggal Awal harus lebih besar dari Tanggal Akhir", "warning");
+                Swal.fire({
+                            icon: 'warning',
+                            title: 'Peringatan!',
+                            text: 'Tanggal Akhir harus lebih besar dari Tanggal Awal',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                 $("#endDate").val('');
             }
         });
@@ -131,6 +143,7 @@
 
         $('form').submit(function (event) {
             event.preventDefault(); 
+
             loadPartialView(); 
         });
     });

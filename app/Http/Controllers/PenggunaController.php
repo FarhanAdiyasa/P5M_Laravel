@@ -27,6 +27,7 @@ class PenggunaController extends Controller
 
     function save (Request $request){
 
+
             // Retrieve the API data
     $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
     $apiData = json_decode(file_get_contents($url), true);
@@ -39,18 +40,7 @@ class PenggunaController extends Controller
         // Handle the case where the user is not found in the API data
         return redirect('user_lihat');
     }
-    $request->validate([
-        'nama_pengguna' => 'required', // tambahkan validasi sesuai kebutuhan
-        'username' => [
-            'required',
-            Rule::unique('Pengguna', 'username')->ignore($request->id),
-        ],
-        'role' => [
-            'required',
-            Rule::unique('Pengguna', 'role')->ignore($request->id),
-        ],
-        // ... tambahkan validasi untuk kolom lainnya
-    ]);
+
 
     // Use the API username or adjust this based on the actual API response structure
     $username = $apiUser['username'];
@@ -61,10 +51,10 @@ class PenggunaController extends Controller
     $aktifitas = "Tambah Pengguna " . $nama_pengguna;
     $tanggal =  now()->format('Y-m-d');
 
-DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
 
-        return redirect('user_lihat');
+        return redirect('user_lihat')->with('success', 'Data berhasil ditambahkan.');
     }
 
     function pengguna_edit($id){
@@ -91,6 +81,8 @@ DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
                 // Handle the case where the user is not found in the API data
                 return redirect('user_lihat');
             }
+
+
         
             // Use the API username or adjust this based on the actual API response structure
             $username = $apiUser['username'];
@@ -103,34 +95,28 @@ DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
     
     DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
     
-        return redirect('user_lihat');
+        return redirect('user_lihat')->with('update', 'Data berhasil diubah.');
 }
 
 
     function delete($id){
 
-
         $user = DB::select('SELECT username FROM Pengguna WHERE id = ?', [$id]);
-
 
         DB::statement('EXEC sp_delete_pengguna ?', [$id]);
 
-
-        $username = strval($user[0]->username);
-    
+        $username = strval($user[0]->username);   
 
         $aktifitas = "Hapus Pengguna " . $username;
         $tanggal =  now()->format('Y-m-d');
-    
-    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
-
-    return redirect('user_lihat')->with('delete', 'Pelatihan Deleted Successfully');
-
-
         
-}
+        DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
-public function checkUserExistence(Request $request)
+        return redirect('user_lihat')->with('delete', 'Data berhasil dihapus');
+       
+    }
+
+    public function checkUserExistence(Request $request)
     {
         $username = $request->input('username');
         $role = $request->input('role');

@@ -16,23 +16,12 @@ class P5MController extends Controller
 {
     public function p5msop()
     {
-        /*$dataMahasiswa   = DB::connection('sqlsrv')->table('sia_msmahasiswa')
-        ->select('*')->where('sia_msmahasiswa.kon_id', '=', 3)
-        ->get(); */
         $url = file_get_contents('https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListMahasiswa?id_konsentrasi=3');
         $dataMahasiswa = json_decode($url, true);
-
-        
-        /*$dataMahasiswa   = DB::connection('sqlsrv2')->table('mahasiswa')
-        ->select('*')
-        ->get();*/  
 
         // Assuming you have a P5M model
         $pelanggaran = DB::select('EXEC sp_get_all_pelanggaran');
         $p5m = DB::select('EXEC sp_get_all_p5m');
-
-        // Assuming you have a get3tabel relationship in your P5M model
-        //$p5m = P5M::with('p5m')->get(); // Adjust this based on your actual 
 
         return view('KoordinatorSOP_dan_TATIB/P5M/P5M_Input', compact('dataMahasiswa', 'pelanggaran', 'p5m'));
     }
