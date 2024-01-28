@@ -50,14 +50,6 @@
 <!-- Link CSS Swal -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
-
-<!-- =======================================================
-  * Template Name: NiceAdmin - v2.5.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-
 </head>
 
 <body>
