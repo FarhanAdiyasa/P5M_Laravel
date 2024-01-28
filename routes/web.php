@@ -43,8 +43,8 @@ Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
     Route::post('/pengguna/update',[PenggunaController::class,'update']);
     Route::get('/pengguna/delete/{id}',[PenggunaController::class,'delete']);
 
-    Route::post('/checkUserExistence', [PenggunaController::class, 'checkUserExistence']);
-    Route::post('/checkUserExistenceEdit', [PenggunaController::class, 'checkUserExistenceEdit']);
+    Route::post('/checkUserExistence', [PenggunaController::class, 'checkUserExistence'])->name('checkUserExistence');
+    Route::post('/checkUserExistenceEdit', [PenggunaController::class, 'checkUserExistenceEdit'])->name('checkUserExistenceEdit');
 
     Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
     Route::get('/pelanggaraninput',[PelanggaranController::class,'pelanggaran_input']);

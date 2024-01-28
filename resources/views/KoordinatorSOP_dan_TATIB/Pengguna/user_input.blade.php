@@ -211,13 +211,18 @@
         if (selectedUsername == null) {
             selectedUsername = $('#username').val();
         }
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
         $.ajax({
-        url: '/Pengguna/CheckUserExistence',
-        type: 'POST',
+        url: "{{route('checkUserExistence')}}",
+        type: 'POST', 
+        headers: {
+        'X-CSRF-TOKEN': csrfToken
+        },
         data: { username: selectedUsername, role: selectedRole },
+       
         success: function (result) {
-            if (result.exists) {
+            if (result.exists ) {
                 Swal.fire({
                     title: "Error",
                     text: "User with the same username and role already exists.",
@@ -234,6 +239,7 @@
                 });
                 $('#penggunaForm')[0].reset();
             }
+            console.log(result);
         },
         error: function (error) {
             console.log(error);

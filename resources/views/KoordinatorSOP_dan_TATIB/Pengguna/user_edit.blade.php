@@ -66,14 +66,15 @@
                     <div class="row g-8">
 
                                 <br/>
-                                <form role="form" action="{{ url('pengguna/update') }}" method="post">
+                                <form role="form" action="{{ url('pengguna/update') }}" method="post" id="penggunaForm">
                                     @csrf
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="id" value="{{ $pengguna->id }}" hidden>
+                                        <input type="hidden" class="form-control" name="id" value="{{$pengguna->id}}" id="id">
                                     </div>
                                     <br>
                                         
                                         <label for="nama_pengguna">Nama Pengguna<span style="color: red">*</span></label>
+                                        <input class="form-control" name="username" id="username" value="{{$pengguna->username}}" type="hidden" />
                                         <select name="nama_pengguna" class="form-select" style="width:100%" required id="pilihPengguna">
                                         <option value="{{ $pengguna->nama_pengguna }}">{{ $pengguna->nama_pengguna }}</option>
                                         @php
@@ -104,12 +105,11 @@
                                     <div class="form-group">
                                         <label for="role">Role<span style="color: red">*</span></label>
                                         <select name="role" class="form-select" style="width:100%"  required required id="role" onchange="cekExist()">
-                                            <option value="{{ $pengguna->role }}">{{ $pengguna->role }}</option>
-                                            @if($pengguna->role == "KOORDINATOR SOP dan TATIB")
-                                                <option value="KOORDINATOR TINGKAT">KOORDINATOR TINGKAT</option>
-                                            @elseif($pengguna->role == "KOORDINATOR TINGKAT")
-                                                <option value="KOORDINATOR SOP dan TATIB">KOORDINATOR SOP dan TATIB</option>
-                                            @endif
+                                            <option value="{{ $pengguna->role }}">{{ $pengguna->role }}</option>\
+                                                <option value="KOORDINATOR TINGKAT" @selected($pengguna->role == "KOORDINATOR TINGKAT")>KOORDINATOR TINGKAT</option>
+                                                <option value="KOORDINATOR SOP dan TATIB" @selected($pengguna->role == "KOORDINATOR SOP dan TATIB")>KOORDINATOR SOP dan TATIB</option>
+                                                <option value="SEKRETARIS PRODI" @selected($pengguna->role == "SEKRETARIS PRODI")>SEKRETARIS PRODI</option>
+                                           
                                         </select>
                                     </div>
                                     <br>
@@ -156,6 +156,7 @@
     $(document).ready(function () {
         function changeRole() {
             $('#role').on('change', function () {
+                
                 var selectedRole = $('#role option:selected').val();
                 if (selectedRole === 'KOORDINATOR TINGKAT') {
                     $('.kelas-field').show();
@@ -164,6 +165,7 @@
                     $('.kelas-field').hide();
                     $('select[name="kelas"]').prop('required', false);
                 }
+                
             });
         }
 
@@ -189,14 +191,18 @@
         if (selectedUsername == null) {
             selectedUsername = $('#username').val();
         }
-
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var id = $('#id').val();
         $.ajax({
-            url: '/pengguna/check-user-existence',
-            type: 'POST',
-            data: { username: selectedUsername, role: selectedRole },
+            url: "{{route('checkUserExistenceEdit')}}",
+            type: 'POST', 
+            headers: {
+            'X-CSRF-TOKEN': csrfToken
+            },
+            data: { username: selectedUsername, role: selectedRole, id: id },
             success: function (result) {
                 if (result.exists) {
-                    swal({
+                    Swal.fire({
                         title: "Error",
                         text: "User with the same username and role already exists.",
                         icon: "error",
@@ -211,7 +217,9 @@
                         }
                     });
                     $('#penggunaForm')[0].reset();
+                    console.log(result);
                 }
+                console.log(result);
             },
             error: function (error) {
                 console.log(error);

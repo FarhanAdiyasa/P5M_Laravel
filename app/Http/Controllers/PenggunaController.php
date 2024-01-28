@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Login_User; // Assuming LoginUser is your model
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -121,7 +122,7 @@ class PenggunaController extends Controller
         $username = $request->input('username');
         $role = $request->input('role');
 
-        $userExists = Pengguna::where('username', $username)
+        $userExists = User::where('nama_pengguna', $username)
             ->where('role', $role)
             ->where('status', 1)
             ->exists();
@@ -135,13 +136,13 @@ class PenggunaController extends Controller
         $role = $request->input('role');
         $id = $request->input('id');
 
-        $userExists = Pengguna::where('username', $username)
+        $userExists = User::where('nama_pengguna', $username)
             ->where('role', $role)
             ->where('status', 1)
             ->where('id', '!=', $id)
             ->exists();
 
-        return response()->json(['exists' => $userExists]);
+        return response()->json(['exists' => $userExists, 'username'=>$username, 'role'=>$role]);
     }
 
 
