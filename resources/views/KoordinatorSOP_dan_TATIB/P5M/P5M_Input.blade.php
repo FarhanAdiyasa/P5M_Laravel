@@ -23,7 +23,12 @@
                 <div class="card-body">
                     <br>
 
-
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                
 
                     @php
                         $kelasDipilih = session('kelas_dipilih');
@@ -88,7 +93,7 @@
                                             </tr>
                                         @endif
                                     @else
-                                        
+
                                     @endif
                                 @endforeach
                             </tbody>
