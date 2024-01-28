@@ -37,6 +37,7 @@
                             $kelas = array_unique(array_column($dataMahasiswa, 'kelas'));
                             $selectedKelas = request('dropdown'); // Ambil nilai yang diposting
                         ?>
+                          <option value="">Pilih Kelas</option>
                         @foreach ($kelas as $kelasOption)
                             @php
                                 $isSelected = $kelasOption == $selectedKelas ? 'selected' : '';
@@ -87,7 +88,7 @@
                                             </tr>
                                         @endif
                                     @else
-                                        @php $no++; @endphp
+                                        {{-- @php $no++; @endphp
 
                                         <tr>
                                             <td class="text-center">
@@ -103,7 +104,7 @@
                                                         value="{{ $m->jam_minus }}">
                                                 </td>
                                             @endforeach
-                                        </tr>
+                                        </tr> --}}
                                     @endif
                                 @endforeach
                             </tbody>
