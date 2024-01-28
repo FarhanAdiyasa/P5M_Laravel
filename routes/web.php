@@ -45,8 +45,6 @@ Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
     Route::get('/penggunaedit/{id}',[PenggunaController::class,'pengguna_edit']);
     Route::post('/pengguna/update',[PenggunaController::class,'update']);
     Route::get('/pengguna/delete/{id}',[PenggunaController::class,'delete']);
-    Route::post('/pengguna/check-user-existence', [PenggunaController::class, 'checkUserExistence']);
-Route::post('/pengguna/check-user-existence-edit', [PenggunaController::class, 'checkUserExistenceEdit']);
 
 
 
@@ -80,16 +78,12 @@ Route::get('/P5M/LoadPartialViewAbsen/{filterValue}/{startDate}/{endDate}', [Abs
 Route::get('/P5M/LoadPartialViewAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensiMinus'])->name('partial.absen.minus');
 Route::get('/P5M/LoadPartialView/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialView'])->name('partial.p5m');
 
-Route::get('p5msop', [P5MController::class, 'p5msop']);
+Route::any('p5msop', [P5MController::class, 'p5msop']);
 
 Route::post('/p5msop/tambah', [P5MController::class, 'tambah']);
 Route::post('p5mlihat', [P5MController::class, 'p5mlihat']);
 Route::get('history_lihat', [P5MController::class, 'p5msophistory']);
 Route::any('laporan_jam_minus', [P5MController::class, 'laporanp5m']);
-
-Route::get('pilihkls', [P5MController::class, 'pilih_kelas']);
-Route::get('pilihkls/{kelas}', [P5MController::class, 'pilih_tanggal']);
-
 
 Route::get('daftarAbsensi', [AbsensiController::class, 'index'])->name('import');
 Route::post('/daftarAbsensi/import_excel', [AbsensiController::class, 'import_excel']);

@@ -4,11 +4,44 @@
 
 <main id="main" class="main">
 
-    <div class="pagetitle">
-        <br>
-        <h1>Pilih Tanggal</h1>
-        <br> 
+<div class="pagetitle">
+        <h1>History P5M</h1>
+        <nav class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a asp-controller="P5M" asp-action="HistoryP5M">Pilih Kelas History P5M</a></li>
+                <li class="breadcrumb-item active" aria-current="page">History P5M</li>
+            </ol>
+        </nav>
     </div><!-- End Page Title -->
+    <div class="container">
+    <div class="row mb-3">
+            <div class="form-group col-auto">
+                <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+            </div>
+            <div class="form-group col-auto">
+                <button type="submit" class="btn btn-primary" id="pilihButton">Pilih</button>
+            </div>
+    </div>
+    <div class="row">
+    <div class="card container overflow-auto">
+        <div class="card-body container">
+            <h5 class="card-title">Laporan Jam Minus Absensi Kelas {{ $kelas }} - Tanggal: <span id="selectedDate" style="font-weight:900"></span></h5>
+            <hr />
+            @if (session('successMessage'))
+                <div class="row">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <strong>Sukses!</strong> {{ session('successMessage') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
+            <input id="kelas" type="hidden" value="{{ $kelas }}" />
+        </div>
+    </div>
+</div>
+
 
     <section class="section">
 
