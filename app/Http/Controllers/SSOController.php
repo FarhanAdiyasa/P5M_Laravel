@@ -24,8 +24,9 @@ class SSOController extends Controller
         $check2 = User::where(["username"=>Auth::user()->username, "role"=>$role])->firstOrFail();
         Auth::logout();
         session()->flush();
+
         Auth::login($check2);
-        session(['role' => $role]);
+        session(['role' =>$check2->role]);
         return redirect()->route('idx');
     }
 

@@ -20,24 +20,41 @@
     <section class="section">
 
         <div class="col-12">
+            @php
+           
+                if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    $tanggal =  $_POST['tanggal'];
+                }else{
+                    if (!isset($tanggal)) {
+                    $tanggal = date('Y-m-d'); 
+                    }
+                }
+             @endphp
+        
+        
+          
+                <form action="{{route('pilikls', ['kelas'=>$kelas])}}" method="post">
+                    @csrf
+                    <div class="row mb-3">
+                    <div class="form-group col-auto">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" required value="{{$tanggal}}">
+                    </div>
+                    <div class="form-group col-auto">
+                        <button type="submit" class="btn btn-primary" id="pilihButton">Pilih</button>
+                    </div>
+                </div>
+                </form>
+             
+          
             <div class="card recent-sales overflow-auto">
-
+                <div class="card-body container">
+                    <h5 class="card-title">Laporan Jam Minus Absensi Kelas {{$kelas}} - Tanggal: <span id="selectedDate" style="font-weight:900">{{$tanggal}}</span></h5>
+                    <hr />
+                    <input id="kelas" type="hidden" value="$kelas" />
+                </div>
                 <div class="card-body">
                     <br>
-                    @php
-                        $tanggal = request()->input('tanggalTransaksi');
-                        $kelasHistory = request()->input('kelas');
-                    @endphp
-                    <table>
-                        <tr>
-                            <th style="text-align: end;">Tanggal :</th>
-                            <td>{{ $tanggal }}</td>
-                        </tr>
-                        <tr>
-                            <th style="text-align: end;">Kelas :</th>
-                            <td>{{ $kelasHistory }}</td>
-                        </tr>
-                    </table>
+
                     <form role="form" action="{{ url('P5M/tambah/') }}" method="post">
                         @csrf <!-- Add CSRF token -->
                         <table class="table table-bordered datatable">
@@ -54,28 +71,31 @@
                             <tbody>
                                 @php $i = 0; @endphp
                                 @foreach ($dataMahasiswa as $dm)
-                                @if($dm['kelas'])
-                                    <tr>
-                                        <td class="text-center">@php $i++; echo $i; @endphp</td>
-                                        <td class="text-center">{{ $dm['nim'] }}</td>
-                                        <td>{{ $dm['nama'] }}</td>
-                                        
-                                        @foreach ($pelanggaran as $m)
-                                            @php
-                                                $ischecked = '';
-                                                foreach ($get3tabel as $g) {
-                                                    if ($g->id_pelanggaran == $m->id && $dm['nim'] == $g->nim_mahasiswa && $tanggal == $g->tgl_transaksi) {
-                                                        $ischecked = 'checked';
-                                                    }
-                                                }
-                                            @endphp
+                                    @if ($dm['kelas'] == $kelas)
+                                        <tr>
+                                            <td class="text-center">@php $i++; echo $i; @endphp</td>
+                                            <td class="text-center">{{ $dm['nim'] }}</td>
+                                            <td>{{ $dm['nama'] }}</td>
                                             
-                                            <td class="text-center">
-                                                <input type="checkbox" id="" name="" value="" {{ $ischecked }} disabled>
-                                            </td>
-                                        @endforeach
-                                    </tr>
-                                @endif
+                                            @foreach ($pelanggaran as $m)
+                                                @php
+                                                    $ischecked = '';
+                                                    foreach ($get3tabel as $g) {
+                                                        if ($g->id_pelanggaran == $m->id && 
+                                                            $dm['nim'] == $g->nim_mahasiswa && 
+                                                            $tanggal == date('Y-m-d', strtotime($g->tgl_transaksi))) {
+                                                            $ischecked = 'checked';
+                                                        }
+
+                                                    }
+                                                @endphp
+                                                
+                                                <td class="text-center">
+                                                    <input type="checkbox" id="" name="" value="" {{ $ischecked }} disabled>
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endif
                             @endforeach
                             </tbody>
                         </table>

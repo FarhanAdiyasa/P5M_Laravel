@@ -187,11 +187,19 @@
             </a>
           </li>
           @endif
+          @if ( session('role') != "KOORDINATOR TINGKAT")
 		      <li>
             <a  href="{{url('pilihkls')}}">
               <i class="bi bi-circle"></i><span>History P5M</span>
             </a>
           </li>
+          @else 
+		      <li>
+            <a href="{{ route('pilikls', ['kelas' => Auth::user()->kelas]) }}">
+              <i class="bi bi-circle"></i><span>History P5M</span>
+            </a>
+          </li>
+          @endif
           <li>
             <a href='laporan_jam_minus/'>
               <i class="bi bi-circle"></i><span>Laporan Jam Minus P5M</span>

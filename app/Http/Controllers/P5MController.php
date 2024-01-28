@@ -160,7 +160,7 @@ class P5MController extends Controller
         DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
      
      
-         return redirect('history_lihat')->with('pesan_success', ' dibuat');
+         return redirect('p5msop')->with('success', 'Pelanggaran P5M Berhasil Ditambahkan');
      }
 
      public function p5mlihat()
@@ -203,17 +203,20 @@ public function pilih_kelas(Request $request)
 }
 
 
-       public function pilih_tanggal(Request $request)
+       public function pilih_tanggal($kelas)
        {
-        // Mendapatkan kelas yang dipilih dari session (gantilah 'kelas_dipilih' dengan key yang sesuai)
-        $kelasDipilih = $request->session()->get('kelas_dipilih');
+            $url = file_get_contents('https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListMahasiswa?id_konsentrasi=3');
+            $dataMahasiswa = json_decode($url, true);
 
-        // Mendapatkan data tanggal berdasarkan kelas (gantilah ini sesuai dengan logika Anda)
-        $tanggalData = [
+            $pelanggaran = DB::select('EXEC sp_get_all_pelanggaran');
 
-        ];
+            $p5m = DB::select('EXEC sp_get_all_p5m');
 
-        return view('KoordinatorSOP_dan_TATIB/History/pilih_tanggal', compact('kelasDipilih', 'tanggalData'));
+            $get3tabel = DB::select('EXEC sp_get_pelanggaran_p5m');
+
+        
+
+            return view('KoordinatorSOP_dan_TATIB/P5M/P5M_Lihat', compact('dataMahasiswa', 'pelanggaran', 'p5m', 'get3tabel', 'kelas'));
     
            
         }

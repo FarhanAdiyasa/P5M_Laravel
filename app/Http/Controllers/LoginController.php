@@ -46,8 +46,6 @@ class LoginController extends Controller
                 }
             }
         }
-    
-        // Return JSON response for unsuccessful login
         return response()->json(['success' => false, 'message' => 'Invalid username or password']);
     }
     
