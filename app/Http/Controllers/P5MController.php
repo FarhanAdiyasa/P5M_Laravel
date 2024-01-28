@@ -102,6 +102,7 @@ class P5MController extends Controller
          $total_jam_minus = 0;
          $nim_lama = 0;
          $id_P5M = 0;
+
      
          foreach ($dataMahasiswa as $dm) {
              foreach ($pelanggaran as $m) {
@@ -176,7 +177,6 @@ class P5MController extends Controller
 
         $p5m = DB::select('EXEC sp_get_all_p5m');
 
-        $absen = DB::select('EXEC sp_get_all_absen');
         $get3tabel = DB::select('EXEC sp_get_pelanggaran_p5m');
 
 
@@ -185,5 +185,38 @@ class P5MController extends Controller
         return view('KoordinatorSOP_dan_TATIB/P5M/P5M_Lihat', compact('dataMahasiswa', 'pelanggaran', 'p5m', 'get3tabel'));
          
       }
+
+
+public function pilih_kelas(Request $request)
+{
+    // Logika untuk menangani pemilihan kelas
+
+    // Mendapatkan data tanggal yang ingin ditampilkan
+    $tanggalData = []; // Gantilah ini dengan logika untuk mendapatkan data tanggal sesuai kelas
+
+    // Mendapatkan data mahasiswa dari API
+    $url = file_get_contents('https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListMahasiswa?id_konsentrasi=3');
+    $dataMahasiswa = json_decode($url, true);
+
+    // Mengirim data mahasiswa dan tanggal ke halaman "pilih_kelas"
+    return view('KoordinatorSOP_dan_TATIB/History/pilih_kelas', compact('dataMahasiswa', 'tanggalData'));
+}
+
+
+       public function pilih_tanggal(Request $request)
+       {
+        // Mendapatkan kelas yang dipilih dari session (gantilah 'kelas_dipilih' dengan key yang sesuai)
+        $kelasDipilih = $request->session()->get('kelas_dipilih');
+
+        // Mendapatkan data tanggal berdasarkan kelas (gantilah ini sesuai dengan logika Anda)
+        $tanggalData = [
+
+        ];
+
+        return view('KoordinatorSOP_dan_TATIB/History/pilih_tanggal', compact('kelasDipilih', 'tanggalData'));
+    
+           
+        }
+ 
      
 }

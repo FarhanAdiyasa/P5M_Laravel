@@ -57,11 +57,7 @@
 
           <h4>Masuk Akun</h4>
           <hr>
-          @if(session('error'))
-          <div class="alert alert-danger">
-              <b>Opps!</b> {{session('error')}}
-          </div>
-          @endif
+
           <div class="form-group">
                   <label>Username</label>
                   <input type="text" name="username" class="form-control" placeholder="username" required="">
@@ -74,7 +70,9 @@
                 Copyright © 2023 - MI Politeknik Astra
             </div>
 
+
   <button type="button" onclick="daftarakun(event)" class="btn btn-primary btn-block" style="color: white; width: 100%; margin-top: 10px; margin-bottom: 10px;">Log In</button>
+
   </form>
     </div>
     </div>
@@ -83,27 +81,6 @@
     <div id="dropDownSelect1"></div>
   </body>
     
-  <!--===============================================================================================-->
-    <script src='assets_login/vendor/jquery/jquery-3.2.1.min.js'></script>
-  <!--===============================================================================================-->
-    <script src='assets_login/vendor/animsition/js/animsition.min.js'></script>
-  <!--===============================================================================================-->
-    <script src='assets_login/vendor/bootstrap/js/popper.js'></script>
-    <script src='assets_login/vendor/bootstrap/js/bootstrap.min.js'></script>
-  <!--===============================================================================================-->
-    <script src='assets_login/vendor/select2/select2.min.js'></script>
-  <!--===============================================================================================-->
-    <script src='assets_login/vendor/daterangepicker/moment.min.js'></script>
-    <script src='assets_login/vendor/daterangepicker/daterangepicker.js'></script>
-  <!--===============================================================================================-->
-    <script src='assets_login/vendor/countdowntime/countdowntime.js'></script>
-  <!--===============================================================================================-->
-    <script src='assets_login/js/main.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="assets/swal/sweetalert2@11.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-  <!-- Include jQuery or use an alternative -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Include SweetAlert2 or use an alternative -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -164,6 +141,7 @@
 </script>
 
 
-
   </body>
   </html>
+
+  

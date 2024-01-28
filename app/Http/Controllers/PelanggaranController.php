@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pelanggaran;
 use Illuminate\Support\Facades\DB;
 use App\Models\Detail_P5M;
+use Illuminate\Validation\Rule;
 
 class PelanggaranController extends Controller
 {
@@ -69,6 +70,11 @@ DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
     public function delete($id)
     {
+        $user = DB::select('SELECT nama_pelanggaran FROM pelanggaran WHERE id = ?', [$id]);
+
+        $nama_pelanggaran = strval($user[0]->nama_pelanggaran);
+
+
         DB::statement('EXEC sp_delete_pelanggaran ?', [$id]);
 
         $aktifitas = "Hapus Pelanggaran " . $nama_pelanggaran;

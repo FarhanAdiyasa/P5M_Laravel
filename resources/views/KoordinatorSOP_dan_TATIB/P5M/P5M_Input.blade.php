@@ -23,50 +23,31 @@
                 <div class="card-body">
                     <br>
 
+
+
                     @php
-                        $sql = "SELECT kelas FROM pengguna WHERE nama_pengguna = ? and status = 1";
-                        $where = Cookie::get('nama');
-                        $machine = DB::table('pengguna')->select('kelas')->where('nama_pengguna', $where)->where('status', 1)->get();
-                        $DdlKelas = '';
-                        foreach ($machine as $m) {
-                            $DdlKelas = $m->kelas;
-                        }
+                        $kelasDipilih = session('kelas_dipilih');
                     @endphp
 
-                    <table>
-                        <th>
-                            <p> Kelas : {{ $DdlKelas }}</p>
-                        </th>
-                    </table>
-
                     <form action="{{ url('p5msop') }}" method="post" name="pilih" id="pilih">
-                        @csrf
-                        <label for="birthday">Kelas &nbsp:</label>
-                        <select class="form-select" style="width:20%; display:inline;" name="dropdown">
-                            <?php
-                                $kelas = array();
-                                $i = 0;
-                                foreach ($dataMahasiswa as $dm){
-                                    $i++;
-                                    array_push($kelas, $dm['kelas']);
-                                }
-                                sort($kelas);
-                                $arrayLength = count($kelas);
-                            ?>
-                               @if (session('role') != "KOORDINATOR TINGKAT")
-                                    @for ($i = 0; $i < $arrayLength; $i++)
-                                        @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
-                                            <option value="{{ $kelas[$i] }}">{{ $kelas[$i] }}</option>
-                                        @endif
-                                    @endfor
-                                @else
-                                <option value="{{ Auth::user()->kelas }}">{{ Auth::user()->kelas }}</option>
-                                @endif
-                           
-                        </select>
+                    @csrf
+                    <label for="birthday">Kelas &nbsp:</label>
+                    <select class="form-select" style="width:20%; display:inline;" name="dropdown">
+                        <?php
+                            $kelas = array_unique(array_column($dataMahasiswa, 'kelas'));
+                            $selectedKelas = request('dropdown'); // Ambil nilai yang diposting
+                        ?>
+                        @foreach ($kelas as $kelasOption)
+                            @php
+                                $isSelected = $kelasOption == $selectedKelas ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $kelasOption }}" {{ $isSelected }}>{{ $kelasOption }}</option>
+                        @endforeach
+                    </select>
 
-                        <input type="submit" id="cetak" name="cetak" class="btn btn-primary" value="Pilih"/>
-                    </form>
+                    <input type="submit" id="cetak" name="cetak" class="btn btn-primary" value="Pilih"/>
+                </form>
+
 
                     <form role="form" action="{{ url('p5msop/tambah') }}" id="formP5M" method="post">
                         @csrf

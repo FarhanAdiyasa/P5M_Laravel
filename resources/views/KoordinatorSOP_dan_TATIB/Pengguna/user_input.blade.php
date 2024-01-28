@@ -63,52 +63,62 @@
                     <div class="container-fluid pt-4 px-4">
                         <div class="row g-8">
                             <br/>
-                            <form role="form" action="{{ url('pengguna/insert') }}" method="post">
+                            <form role="form" action="{{ url('pengguna/insert') }}" method="post" id="penggunaForm">
                                 @csrf
 
                                 <br>
                                 <div class="form-group">
-                                <label for="nama_pengguna">Nama Pengguna</label>
-                                <select name="nama_pengguna" class="form-select" style="width:100%" required>
-                                    <option value="null">-- Pilih Nama Pengguna --</option>
 
-                                    <?php
-                                    $kelas = [];
-                                    
-                                    $i = 0;
-                                    foreach ($data as $d) {
-                                        $i++;
-                                        if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika') {
-                                            array_push($kelas, $data[$i - 1]['nama']);
+                                    <label for="nama_pengguna">Nama Pengguna<span style="color: red">*</span></label>
+                                    <select name="nama_pengguna" class="form-select" style="width:100%" required id="pilihPengguna">
+                                        <option value="">-- Pilih Nama Pengguna --</option>
+
+                                        <?php
+                                        $kelas = [];
+
+                                        $i = 0;
+                                        foreach ($data as $d) {
+                                            $i++;
+                                            if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika') {
+                                                array_push($kelas, $data[$i - 1]['nama']);
+                                            }
                                         }
-                                    }
 
-                                    sort($kelas);
-                                    $uniqueKelas = array_unique($kelas);
+                                        sort($kelas);
+                                        $uniqueKelas = array_unique($kelas);
 
-                                    foreach ($uniqueKelas as $kelasItem) {
-                                        echo "<option value='" . $kelasItem . "'>" . $kelasItem . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                                        foreach ($uniqueKelas as $kelasItem) {
+                                            echo "<option value='" . $kelasItem . "'>" . $kelasItem . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                    @error('nama_pengguna')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
                                 <br>
 
+                                <input type="hidden" name="username" id="username" value="">
+                            <input type="hidden" name="nama_pengguna" id="nama_pengguna" value="">
+
                                 <div class="form-group">
-                                    <label for="role">Role</label>
-                                    <select name="role" class="form-select" style="width:100%" required>
-                                        <option value="null">-- Pilih Role --</option>
+                                    <label for="role">Role<span style="color: red">*</span></label>
+                                    <select name="role" class="form-select" style="width:100%" required required id="role" onchange="cekExist()">
+                                        <option value="">-- Pilih Role --</option>
                                         <option value="KOORDINATOR SOP dan TATIB">KOORDINATOR SOP dan TATIB</option>
                                         <option value="KOORDINATOR TINGKAT">KOORDINATOR TINGKAT</option>
                                         <option value="SEKRETARIS PRODI">SEKRETARIS PRODI</option>
                                     </select>
+                                    @error('role')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <br>
 
-                                <div class="form-group">
-                                    <label for="kelas">Kelas</label>
+                                <div class="form-group kelas-field">
+                                    <label for="kelas">Kelas<span style="color: red">*</span></label>
                                     <select name="kelas" class="form-select" style="width:100%" required>
-                                        <option value="null">-- Pilih Kelas --</option>
+                                        <option value="">-- Pilih Kelas --</option>
                                         @php
                                             $kelas = [];
                                             $semuaKelas = 'Semua kelas';
@@ -127,15 +137,14 @@
                                             @endif
                                         @endfor
                                     </select>
+                                    @error('kelas')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <br>
-
                                 <div class="form-group">
-
-                <input type="text" class="form-control" name="status" value = "1" hidden>
-
-
-
+                                    <input type="text" class="form-control" name="status" value="1" hidden>
+                                </div>
 
                                 <button type="reset" class="btn btn-secondary m-2" data-dismis="modal"
                                         onclick="history.go(-1);">Kembali
@@ -148,7 +157,49 @@
                 </div>
             </div>
         </section>
+        <script>
+    $(document).ready(function () {
+        function changeRole() {
+            $('#role').on('change', function () {
+                var selectedRole = $('#role option:selected').val();
+                if (selectedRole === 'KOORDINATOR TINGKAT') {
+                    $('.kelas-field').show();
+                    $('select[name="kelas"]').prop('required', true);
+                } else {
+                    $('.kelas-field').hide();
+                    $('select[name="kelas"]').prop('required', false);
+                }
+            });
+        }
 
+        function changePengguna() {
+            $('#pilihPengguna').on('change', function () {
+                var selectedUsername = $('#pilihPengguna option:selected').val();
+                $('#username').val(selectedUsername);
+                cekExist(selectedUsername);
+                var selectedNamaPengguna = $('#pilihPengguna option:selected').text();
+                $('#nama_pengguna').val(selectedNamaPengguna);
+                console.log(selectedUsername, selectedNamaPengguna);
+            });
+        }
+
+        $('.kelas-field').hide();
+        changeRole();
+        changePengguna();
+    });
+
+    const cekExist = (selectedUsername = null) => {
+        var selectedRole = $('#role option:selected').val();
+
+        if (selectedUsername == null) {
+            selectedUsername = $('#username').val();
+        }
+
+        
+        if (selectedRole === 'KOORDINATOR SOP dan TATIB') {
+            $('select[name="kelas"]').val('Semua kelas');
+        }
+    }
+</script>
     </main>
 @endsection
-

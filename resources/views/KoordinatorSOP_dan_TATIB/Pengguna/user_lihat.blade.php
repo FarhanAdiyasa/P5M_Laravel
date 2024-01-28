@@ -53,7 +53,6 @@
                                     <tr>
                                         <td class="text-center">{{ ++$i }}</td>
                                         <td>{{ $u->username }}</td>
-
                                         <td>{{ $u->nama_pengguna }}</td>
                                         <td>{{ $u->role }}</td>
                                         <td>{{ $u->kelas }}</td>
@@ -61,14 +60,26 @@
                                             <a href="{{ url('penggunaedit/'.$u->id) }}" class="btn" style="color: #0275d8">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="{{ url('pengguna/delete/'.$u->id) }}" id="tombol-hapus" class="btn" style="color: #0275d8">
-                                                <i class="fa fa-trash"></i>
+                                            
+                                            <a href="#" class="delete-btn" data-id="{{ $u->id }}" style="color: #0275d8">
+                                                <i class="fa fa-trash"></i></button>
                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        @if(session('delete'))
+                                <script>
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Data berhasil dihapus.',
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    });
+                                </script>
+                                @endif
 
                         <br>
                         <br>
@@ -76,5 +87,27 @@
                 </div>
             </div><!-- End Recent Sales -->
         </section>
+
+    <script>
+    $(document).ready(function () {
+    $('.delete-btn').on('click', function (event) {
+        event.preventDefault();
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Yakin data ingin dihapus?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to delete route with the correct parameter
+                window.location.href = "{{ url('pengguna/delete') }}/" + id;
+            }
+        });
+    });
+});
+</script>
+
     </main>
 @endsection

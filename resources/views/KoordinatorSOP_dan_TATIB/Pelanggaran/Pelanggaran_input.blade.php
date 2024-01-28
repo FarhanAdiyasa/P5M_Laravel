@@ -35,7 +35,7 @@
               @csrf
               <div class="form-group">
                 <label for="nama_pelanggaran">Nama Pelanggaran<span style="color: red">*</span></label>
-                <input type="text" class="form-control" name="nama_pelanggaran">
+                <input type="text" class="form-control" name="nama_pelanggaran" required>
                 @error('nama_pelanggaran')
                   <small class="text-danger pl-3">{{ $message }}</small>
                 @enderror
@@ -44,7 +44,7 @@
 
               <div class="form-group">
                 <label for="jam_minus">Jam Minus<span style="color: red">*</span></label>
-                <input type="text" class="form-control" name="jam_minus">
+                <input type="number" class="form-control" name="jam_minus" required>
                 @error('jam_minus')
                   <small class="text-danger pl-3">{{ $message }}</small>
                 @enderror

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Login_User; // Assuming LoginUser is your model
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class PenggunaController extends Controller
 {
@@ -37,6 +39,18 @@ class PenggunaController extends Controller
         // Handle the case where the user is not found in the API data
         return redirect('user_lihat');
     }
+    $request->validate([
+        'nama_pengguna' => 'required', // tambahkan validasi sesuai kebutuhan
+        'username' => [
+            'required',
+            Rule::unique('Pengguna', 'username')->ignore($request->id),
+        ],
+        'role' => [
+            'required',
+            Rule::unique('Pengguna', 'role')->ignore($request->id),
+        ],
+        // ... tambahkan validasi untuk kolom lainnya
+    ]);
 
     // Use the API username or adjust this based on the actual API response structure
     $username = $apiUser['username'];
@@ -48,6 +62,7 @@ class PenggunaController extends Controller
     $tanggal =  now()->format('Y-m-d');
 
 DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+
 
         return redirect('user_lihat');
     }
@@ -95,16 +110,53 @@ DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
     function delete($id){
 
 
+        $user = DB::select('SELECT username FROM Pengguna WHERE id = ?', [$id]);
+
+
         DB::statement('EXEC sp_delete_pengguna ?', [$id]);
 
-        $aktifitas = "Hapus Pengguna " . $nama_pengguna;
+
+        $username = strval($user[0]->username);
+    
+
+        $aktifitas = "Hapus Pengguna " . $username;
         $tanggal =  now()->format('Y-m-d');
     
     DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
-    
-        return redirect('user_lihat');
+    return redirect('user_lihat')->with('delete', 'Pelatihan Deleted Successfully');
+
+
+        
 }
+
+public function checkUserExistence(Request $request)
+    {
+        $username = $request->input('username');
+        $role = $request->input('role');
+
+        $userExists = Pengguna::where('username', $username)
+            ->where('role', $role)
+            ->where('status', 1)
+            ->exists();
+
+        return response()->json(['exists' => $userExists]);
+    }
+
+    public function checkUserExistenceEdit(Request $request)
+    {
+        $username = $request->input('username');
+        $role = $request->input('role');
+        $id = $request->input('id');
+
+        $userExists = Pengguna::where('username', $username)
+            ->where('role', $role)
+            ->where('status', 1)
+            ->where('id', '!=', $id)
+            ->exists();
+
+        return response()->json(['exists' => $userExists]);
+    }
 
 
 }

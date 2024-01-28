@@ -55,15 +55,26 @@
                                 <a href="{{ url('pelanggaranedit/'.$m->id) }}" class="btn" style="color: #0275d8">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                
-                                <a href="{{ url('pelanggaran/delete/'.$m->id) }}" class="btn" style="color: #0275d8">
-                                    <i class="fa fa-trash"></i>
-                                </a>
+                                <a href="#" class="delete-btn" data-id="{{ $m->id }}" style="color: #0275d8">
+                                                <i class="fa fa-trash"></i></button>
+                                            </a>
+                               
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            @if(session('delete'))
+                                <script>
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Data berhasil dihapus.',
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    });
+                                </script>
+                                @endif
 
             <br>
             <br>
@@ -73,6 +84,29 @@
 </div><!-- End Recent Sales -->
 </section>
 
+<script>
+    $(document).ready(function () {
+    $('.delete-btn').on('click', function (event) {
+        event.preventDefault();
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Yakin data ingin dihapus?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to delete route with the correct parameter
+                window.location.href = "{{ url('pelanggaran/delete') }}/" + id;
+            }
+        });
+    });
+});
+</script>
+
+
 </main><!-- End #main -->
+
 
 @endsection

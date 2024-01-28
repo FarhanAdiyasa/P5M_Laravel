@@ -44,7 +44,11 @@
 <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<!-- Link Script Swal -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Link CSS Swal -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
 
 <!-- =======================================================
@@ -91,7 +95,6 @@
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
          <!--    <img src='assets/img/profile-img.jpg' alt="Profile" class="rounded-circle"> -->
            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                      {{ Auth::user()->nama_pengguna }}
                   </a>
 
 
@@ -185,7 +188,7 @@
           </li>
           @endif
 		      <li>
-            <a  href="{{url('history_lihat')}}">
+            <a  href="{{url('pilihkls')}}">
               <i class="bi bi-circle"></i><span>History P5M</span>
             </a>
           </li>
