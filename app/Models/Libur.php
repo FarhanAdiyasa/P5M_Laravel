@@ -10,9 +10,10 @@ class Libur extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $table = 'Libur';
+    protected $table = 'p5m_mslibur';
 
-    protected $guarded = ['id'];
+    protected $guarded = ['lbr_id'];
+    protected $primaryKey = 'lbr_id';
 
 
 }

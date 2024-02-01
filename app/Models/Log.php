@@ -10,7 +10,7 @@ class Log extends Model
 {
     use HasFactory;
 
-    protected $table = 'Log';
+    protected $table = 'p5m_mslog';
 
 
 

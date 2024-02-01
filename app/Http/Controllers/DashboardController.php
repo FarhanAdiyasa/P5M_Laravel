@@ -64,7 +64,7 @@ class DashboardController extends Controller
 
         // Create a new array to store the calculated results
         $calculatedResults = [];
-
+        
         // Calculate total pelanggaran
         foreach ($result as $item) {
             $calculatedResults[] = [

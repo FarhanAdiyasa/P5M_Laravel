@@ -10,12 +10,15 @@ class Detail_P5M extends Model
 {
     use HasFactory;
 
-    protected $table = 'detail_p5m';
+    protected $table = 'p5m_dtlp5m';
+    protected $primaryKey = 'dp5m_id';
 
 
     protected $fillable = [
-        'id_p5m',
-        'id_pelanggaran',
+        'p5m_id',
+        'plg_id',
+        'dp5m_createdBy',
+        'dp5m_jamMinus',
 
     ];
 

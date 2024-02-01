@@ -11,14 +11,14 @@ class Pelanggaran extends Model
 
     public $timestamps = false;
 
-    protected $table = 'pelanggaran';
+    protected $table = 'p5m_mspelanggaran';
 
-    protected $primaryKey = 'id_pelanggaran';
+    protected $primaryKey = 'plg_id';
 
     protected $fillable = [
-        'id_pelanggaran',
-        'nama_pelanggaran',
-        'jam_minus',
+        'plg_jamMinus   ',
+        'plg_nama',
+        'plg_status',
     ];
 
 

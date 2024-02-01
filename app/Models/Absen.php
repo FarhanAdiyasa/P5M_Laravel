@@ -10,12 +10,12 @@ class Absen extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $table = 'absen';
+    protected $table = 'p5m_msabsen';
+    protected $primaryKey = 'abs_id';
 
     protected $fillable = [
-
-        'nim',
-        'waktu',
+        'abs_nim',
+        'abs_waktu',
     ];
 
 
