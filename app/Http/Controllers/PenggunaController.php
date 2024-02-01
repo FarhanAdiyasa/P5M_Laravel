@@ -39,7 +39,7 @@ class PenggunaController extends Controller
 
     if (!$apiUser) {
         // Handle the case where the user is not found in the API data
-        return redirect('user_lihat');
+        return redirect()->route('p.index')->with('success', 'Pengguna Berhasil Ditambahkan');
     }
 
 
@@ -59,7 +59,7 @@ class PenggunaController extends Controller
     DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
 
-        return redirect('user_lihat')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->route('p.index')->with('success', 'Data berhasil ditambahkan.');
     }
 
     function pengguna_edit($id){
@@ -83,7 +83,7 @@ class PenggunaController extends Controller
             $apiUser = collect($apiData)->firstWhere('nama', $nama_pengguna);
         
             if (!$apiUser) {
-                return redirect('user_lihat');
+                return redirect()->route('p.index');
             }
 
 
@@ -104,7 +104,7 @@ class PenggunaController extends Controller
     
     DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
     
-        return redirect('user_lihat')->with('update', 'Data berhasil diubah.');
+        return redirect()->route('p.index')->with('update', 'Data berhasil diubah.');
 }
 
 
@@ -121,7 +121,7 @@ class PenggunaController extends Controller
         
         DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
 
-        return redirect('user_lihat')->with('delete', 'Data berhasil dihapus');
+        return redirect()->route('p.index')->with('delete', 'Data berhasil dihapus');
        
     }
 

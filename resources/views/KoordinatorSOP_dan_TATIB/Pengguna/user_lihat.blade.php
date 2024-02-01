@@ -20,7 +20,7 @@
 
                     <div class="card-body">
                         <br> 
-                        <a href="{{ url('penggunainput') }}" class="btn btn-primary float-right">
+                        <a href="{{ route('p.create') }}" class="btn btn-primary float-right">
                             <i style="font-style: inherit;" class="bi bi-plus">&nbsp;Tambah Pengguna</i>
                         </a>
                         <br><br>
@@ -57,7 +57,7 @@
                                         <td>{{ $u->role }}</td>
                                         <td>{{ $u->kelas }}</td>
                                         <td class="text-center"> 
-                                            <a href="{{ url('penggunaedit/'.$u->id) }}" class="btn" style="color: #0275d8">
+                                            <a href="{{ route('p.edit', ['id'=>$u->id]) }}" class="btn" style="color: #0275d8">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             

@@ -89,8 +89,8 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
       <ul class="sidebar-nav" id="sidebar-nav">
-          <li class="nav-item">
-              <a class="nav-link collapsed" href="javascript:void(0);" onclick="refreshPage()">
+          <li class="nav-item active">
+              <a class="nav-link active" href="javascript:void(0);" onclick="refreshPage()">
                   <i class="bi bi-grid"></i>
                   <span>Home</span>
               </a>

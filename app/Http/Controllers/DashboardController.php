@@ -17,7 +17,7 @@ class DashboardController extends Controller
 {
 
 
-    public function sop()
+    public function index()
     {
         $latestAbsen = Absen::orderBy('waktu', 'desc')->first();
         $latestWaktu = $latestAbsen ? date('d-m-Y', strtotime($latestAbsen->waktu)) : null;

@@ -20,10 +20,11 @@ class P5MController extends Controller
         $dataMahasiswa = json_decode($url, true);
 
         // Assuming you have a P5M model
+        $KelasMahasiswa = collect($dataMahasiswa)->pluck('kelas')->unique()->values()->all();
         $pelanggaran = DB::select('EXEC sp_get_all_pelanggaran');
         $p5m = DB::select('EXEC sp_get_all_p5m');
 
-        return view('KoordinatorSOP_dan_TATIB/P5M/P5M_Input', compact('dataMahasiswa', 'pelanggaran', 'p5m'));
+        return view('KoordinatorSOP_dan_TATIB/P5M/P5M_Input', compact('dataMahasiswa', 'pelanggaran', 'p5m', 'KelasMahasiswa'));
     }
 
     public function p5msophistory()
@@ -149,7 +150,7 @@ class P5MController extends Controller
         DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
      
      
-         return redirect('p5msop')->with('success', 'Pelanggaran P5M Berhasil Ditambahkan');
+         return redirect()->route('p5m')->with('success', 'Pelanggaran P5M Berhasil Ditambahkan');
      }
 
      public function p5mlihat()

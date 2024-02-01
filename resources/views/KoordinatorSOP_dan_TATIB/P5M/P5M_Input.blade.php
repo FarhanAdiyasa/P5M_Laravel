@@ -34,20 +34,19 @@
                         $kelasDipilih = session('kelas_dipilih');
                     @endphp
 
-                    <form action="{{ url('p5msop') }}" method="post" name="pilih" id="pilih">
+                    <form action="{{ route('p5m') }}" method="post" name="pilih" id="pilih">
                     @csrf
                     <label for="birthday">Kelas &nbsp:</label>
                     <select class="form-select" style="width:20%; display:inline;" name="dropdown">
                         @if (session('role') != "KOORDINATOR TINGKAT")
-                                        @forelse ($KelasMahasiswa as $kelas)
-                                        {
-                                            <option value="{{$kelas}}">{{$kelas}}</option>
-                                        }
-                                        @empty
-                                            
-                                        @endforelse (var $kelas in $KelasMahasiswa)
+                            <option value="" disabled selected>Pilih Kelas</option>
+                            @forelse ($KelasMahasiswa as $kelas)
+                                <option value="{{ $kelas }}" {{ isset($_POST['dropdown']) && $_POST['dropdown'] == $kelas ? 'selected' : '' }}>{{ $kelas }}</option>
+                            @empty
+                                <!-- Handle empty case -->
+                            @endforelse
                         @else
-                        <option value="{{ Auth::user()->kelas }}">{{ Auth::user()->kelas }}</option>
+                            <option value="{{ Auth::user()->kelas }}">{{ Auth::user()->kelas }}</option>
                         @endif
                     </select>
 
@@ -55,7 +54,7 @@
                 </form>
 
 
-                    <form role="form" action="{{ url('p5msop/tambah') }}" id="formP5M" method="post">
+                    <form role="form" action="{{ route('p5m.create') }}" id="formP5M" method="post">
                         @csrf
                         <table class="table table-bordered border datatable">
                             <thead>

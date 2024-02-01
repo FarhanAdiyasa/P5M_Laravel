@@ -106,14 +106,14 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed " href="{{url('sop')}}">
+        <a class="nav-link collapsed " href="{{route('idx')}}">
           <i class="bi bi-bar-chart-line"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
       @if (session('role') == "KOORDINATOR SOP dan TATIB")
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('user_lihat')}}">
+        <a class="nav-link collapsed" href="{{route('p.index')}}">
           <i class="bi bi-person-rolodex"></i><span>Pengguna</span>
         
         </a>
@@ -129,7 +129,7 @@
           
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('mahasiswa')}}">
+        <a class="nav-link collapsed" href="{{route('mahasiswa')}}">
           <i class="bi bi-people"></i><span>Mahasiswa</span>
          
         </a>
@@ -143,18 +143,17 @@
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           @if (session('role') == "KOORDINATOR SOP dan TATIB")
           <li>
-            
-            <a href="{{url('daftarAbsensi')}}">
+            <a href="{{route('import')}}">
               <i class="bi bi-circle"></i><span>Import Absensi</span>
             </a>
           </li>
           @endif
-            <a href="{{url('laporan_absensi')}}">
+            <a href="{{route('laporan_absensi')}}">
               <i class="bi bi-circle"></i><span>Laporan Absensi</span>
             </a>
           </li>
           <li>
-            <a href="{{url('laporanJamMinusAbsensi')}}">
+            <a href="{{route('LjamMinusAbs')}}">
               <i class="bi bi-circle"></i><span>Laporan Jam Minus Absensi</span>
             </a>
           </li>
@@ -168,21 +167,21 @@
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           @if(session('role') == "KOORDINATOR SOP dan TATIB")
           <li>
-            <a href="{{url('pelanggaran')}}">
+            <a href="{{route('pelanggaran')}}">
               <i class="bi bi-circle"></i><span>Kelola Pelanggaran</span>
             </a>
           </li>
           @endif
           @if ( session('role') != "SEKRETARIS PRODI")
           <li>
-            <a href="{{url('p5msop')}}">
+            <a href="{{route('p5m')}}">
               <i class="bi bi-circle"></i><span>P5M</span>
             </a>
           </li>
           @endif
           @if ( session('role') != "KOORDINATOR TINGKAT")
 		      <li>
-            <a  href="{{url('pilihkls')}}">
+            <a  href="{{route('pilihkls')}}">
               <i class="bi bi-circle"></i><span>History P5M</span>
             </a>
           </li>
@@ -202,7 +201,7 @@
       </li><!-- End Tables Nav -->
 	  
 	  <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('sso')}}" >
+        <a class="nav-link collapsed" href="{{route('sso')}}" >
           <i class="bi bi-file-earmark-person"></i>
           <span>Halaman SSO</span>
         </a>
