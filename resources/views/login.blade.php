@@ -33,9 +33,7 @@
     <!-- Google Font -->
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Nunito:300,300i,400,600,800'>
         
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" crossorigin="anonymous" href='https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU'>
-        
+ 
   </head>
       
   <body style="background-repeat: no-repeat; background-size: cover; background-image: url('assets_login/images/IMG_Background.jpg');">

@@ -76,7 +76,6 @@
                                         <label for="nama_pengguna">Nama Pengguna<span style="color: red">*</span></label>
                                         <input class="form-control" name="username" id="username" value="{{$pengguna->username}}" type="hidden" />
                                         <select name="nama_pengguna" class="form-select" style="width:100%" required id="pilihPengguna">
-                                        <option value="{{ $pengguna->nama_pengguna }}">{{ $pengguna->nama_pengguna }}</option>
                                         @php
                                             $kelas = [];
                                             if (is_array($data)) {
@@ -95,9 +94,9 @@
                                         @endphp
 
                                         @for ($i = 0; $i < $arrayLength; $i++)
-                                            @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
-                                                <option value="{{ $kelas[$i] }}">{{ $kelas[$i] }}</option>
-                                            @endif
+                                        @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
+                                        <option value="{{ $kelas[$i] }}" {{ $pengguna->nama_pengguna == $kelas[$i] ? 'selected' : '' }}>{{ $kelas[$i] }}</option>
+                                        @endif                                    
                                         @endfor
                                     </select>
                                     </div>
@@ -105,7 +104,6 @@
                                     <div class="form-group">
                                         <label for="role">Role<span style="color: red">*</span></label>
                                         <select name="role" class="form-select" style="width:100%"  required required id="role" onchange="cekExist()">
-                                            <option value="{{ $pengguna->role }}">{{ $pengguna->role }}</option>\
                                                 <option value="KOORDINATOR TINGKAT" @selected($pengguna->role == "KOORDINATOR TINGKAT")>KOORDINATOR TINGKAT</option>
                                                 <option value="KOORDINATOR SOP dan TATIB" @selected($pengguna->role == "KOORDINATOR SOP dan TATIB")>KOORDINATOR SOP dan TATIB</option>
                                                 <option value="SEKRETARIS PRODI" @selected($pengguna->role == "SEKRETARIS PRODI")>SEKRETARIS PRODI</option>
@@ -116,7 +114,6 @@
                                     <div class="form-group kelas-field">
                                         <label for="kelas">Kelas<span style="color: red">*</span></label>
                                         <select name="kelas" class="form-select" style="width:100%" required>
-                                            <option value="{{ $pengguna->kelas }}">{{ $pengguna->kelas }}</option>
                                             @php
                                                 $kelas = [];
                                                 $semuaKelas = 'Semua kelas';
@@ -128,12 +125,11 @@
                                                 sort($kelas);
                                                 $arrayLength = count($kelas);
                                             @endphp
-                                            <option value="{{ $semuaKelas }}">{{ $semuaKelas }}</option>
                                             @for ($i = 1; $i < $arrayLength; $i++)
-    @if($kelas[$i] != $kelas[$i-1])
-        <option value="{{ $kelas[$i] }}">{{ $kelas[$i] }}</option>
-    @endif
-@endfor
+                                                @if($kelas[$i] != $kelas[$i-1])
+                                                    <option value="{{ $kelas[$i] }}" {{ $pengguna->kelas == $kelas[$i] ? 'selected' : '' }}>{{ $kelas[$i] }}</option>
+                                                @endif
+                                            @endfor
                                         </select>
                                     </div>
                                     <br>
@@ -154,6 +150,14 @@
     </section>
     <script>
     $(document).ready(function () {
+        
+        var selectedRole = $('#role option:selected').val();
+        if (selectedRole == 'KOORDINATOR TINGKAT') {
+            $('.kelas-field').show();
+        } else {
+            $('.kelas-field').hide();
+            $('select[name="kelas"]').removeAttr('required');
+        }
         function changeRole() {
             $('#role').on('change', function () {
                 
@@ -180,7 +184,6 @@
             });
         }
 
-        $('.kelas-field').hide();
         changeRole();
         changePengguna();
     });

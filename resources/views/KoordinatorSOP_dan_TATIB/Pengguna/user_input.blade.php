@@ -130,7 +130,6 @@
                                             sort($kelas);
                                             $arrayLength = count($kelas);
                                         @endphp
-                                        <option value="{{ $semuaKelas }}">{{ $semuaKelas }}</option>
                                         @for ($i = 1; $i < $arrayLength; $i++)
                                             @if ($kelas[$i] != $kelas[$i - 1])
                                                 <option value="{{ $kelas[$i] }}">{{ $kelas[$i] }}</option>

@@ -117,14 +117,14 @@
           <i class="bi bi-person-rolodex"></i><span>Pengguna</span>
         
         </a>
-      </li>
+      {{-- </li>
       
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{url('libur')}}">
           <i class="bi bi-people"></i><span>Libur</span>
          
         </a>
-      </li>
+      </li> --}}
       @endif
           
 

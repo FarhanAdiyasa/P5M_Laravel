@@ -38,17 +38,17 @@
                     @csrf
                     <label for="birthday">Kelas &nbsp:</label>
                     <select class="form-select" style="width:20%; display:inline;" name="dropdown">
-                        <?php
-                            $kelas = array_unique(array_column($dataMahasiswa, 'kelas'));
-                            $selectedKelas = request('dropdown'); // Ambil nilai yang diposting
-                        ?>
-                          <option value="">Pilih Kelas</option>
-                        @foreach ($kelas as $kelasOption)
-                            @php
-                                $isSelected = $kelasOption == $selectedKelas ? 'selected' : '';
-                            @endphp
-                            <option value="{{ $kelasOption }}" {{ $isSelected }}>{{ $kelasOption }}</option>
-                        @endforeach
+                        @if (session('role') != "KOORDINATOR TINGKAT")
+                                        @forelse ($KelasMahasiswa as $kelas)
+                                        {
+                                            <option value="{{$kelas}}">{{$kelas}}</option>
+                                        }
+                                        @empty
+                                            
+                                        @endforelse (var $kelas in $KelasMahasiswa)
+                        @else
+                        <option value="{{ Auth::user()->kelas }}">{{ Auth::user()->kelas }}</option>
+                        @endif
                     </select>
 
                     <input type="submit" id="cetak" name="cetak" class="btn btn-primary" value="Pilih"/>
@@ -93,7 +93,25 @@
                                             </tr>
                                         @endif
                                     @else
+                                        @if ($dm['kelas'] == Auth::user()->kelas)
+                                        @php $no++; @endphp
 
+                                        <tr>
+                                            <td class="text-center">
+                                                @php $i++; echo $i; @endphp
+                                            </td>
+                                            <td class="text-center">{{ $dm['nim'] }}</td>
+                                            <td>{{ $dm['nama'] }}</td>
+
+                                            @foreach ($pelanggaran as $m)
+                                                <td class="text-center">
+                                                    <input type="checkbox" id="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
+                                                        name="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
+                                                        value="{{ $m->jam_minus }}">
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endif
                                     @endif
                                 @endforeach
                             </tbody>

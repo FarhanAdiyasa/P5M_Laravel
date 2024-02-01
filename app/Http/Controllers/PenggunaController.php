@@ -46,7 +46,11 @@ class PenggunaController extends Controller
     // Use the API username or adjust this based on the actual API response structure
     $username = $apiUser['username'];
     $role = $request->input("role");
-    $kelas = $request->input("kelas");
+    if($role == "KOORDINATOR TINGKAT"){
+        $kelas = $request->input("kelas");    
+    }else{
+        $kelas = "Semua Kelas";
+    }
 
     DB::statement('EXEC sp_insert_pengguna ?, ?, ?, ?', [$username,$nama_pengguna, $role, $kelas]);
     $aktifitas = "Tambah Pengguna " . $nama_pengguna;
@@ -79,7 +83,6 @@ class PenggunaController extends Controller
             $apiUser = collect($apiData)->firstWhere('nama', $nama_pengguna);
         
             if (!$apiUser) {
-                // Handle the case where the user is not found in the API data
                 return redirect('user_lihat');
             }
 
@@ -88,7 +91,12 @@ class PenggunaController extends Controller
             // Use the API username or adjust this based on the actual API response structure
             $username = $apiUser['username'];
             $role = $request->input("role");
-            $kelas = $request->input("kelas");    
+            if($role == "KOORDINATOR TINGKAT"){
+                $kelas = $request->input("kelas");    
+            }else{
+                $kelas = "Semua Kelas";
+            }
+          
         DB::statement('EXEC sp_update_pengguna ?, ?, ?, ?, ?, 1', [$id, $username,$nama_pengguna, $role, $kelas]);
 
         $aktifitas = "Ubah Pengguna " . $nama_pengguna;
