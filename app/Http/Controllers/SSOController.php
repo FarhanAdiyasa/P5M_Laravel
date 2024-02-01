@@ -14,14 +14,14 @@ class SSOController extends Controller
     public function index()
     {
         $usn = Auth::user()->username;
-        $roles = User::where("username", $usn)->where("status", 1)->pluck("role")->toArray();
+        $roles = User::where("png_username", $usn)->where("png_status", 1)->pluck("png_role")->toArray();
     
         return view('sso', ['roles' => $roles]);
     }
     
     public function ssoLog($role)
     {
-        $check2 = User::where(["username"=>Auth::user()->username, "role"=>$role])->firstOrFail();
+        $check2 = User::where(["png_username"=>Auth::user()->png_username, "png_role"=>$role])->firstOrFail();
         Auth::logout();
         session()->flush();
 
