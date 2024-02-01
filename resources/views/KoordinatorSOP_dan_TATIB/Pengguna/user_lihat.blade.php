@@ -52,16 +52,16 @@
                                 @foreach($pengguna as $u)
                                     <tr>
                                         <td class="text-center">{{ ++$i }}</td>
-                                        <td>{{ $u->username }}</td>
-                                        <td>{{ $u->nama_pengguna }}</td>
-                                        <td>{{ $u->role }}</td>
-                                        <td>{{ $u->kelas }}</td>
+                                        <td>{{ $u->png_username }}</td>
+                                        <td>{{ $u->png_nama }}</td>
+                                        <td>{{ $u->png_role }}</td>
+                                        <td>{{ $u->png_kelas }}</td>
                                         <td class="text-center"> 
-                                            <a href="{{ route('p.edit', ['id'=>$u->id]) }}" class="btn" style="color: #0275d8">
+                                            <a href="{{ route('p.edit', ['id'=>$u->png_id]) }}" class="btn" style="color: #0275d8">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             
-                                            <a href="#" class="delete-btn" data-id="{{ $u->id }}" style="color: #0275d8">
+                                            <a href="#" class="delete-btn" data-id="{{ $u->png_id }}" style="color: #0275d8">
                                                 <i class="fa fa-trash"></i></button>
                                             </a>
                                         </td>

@@ -65,109 +65,105 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="row g-8">
 
-                                <br/>
-                                <form role="form" action="{{ url('pengguna/update') }}" method="post" id="penggunaForm">
-                                    @csrf
-                                    <div class="form-group">
-                                        <input type="hidden" class="form-control" name="id" value="{{$pengguna->id}}" id="id">
-                                    </div>
-                                    <br>
-                                        
-                                        <label for="nama_pengguna">Nama Pengguna<span style="color: red">*</span></label>
-                                        <input class="form-control" name="username" id="username" value="{{$pengguna->username}}" type="hidden" />
-                                        <select name="nama_pengguna" class="form-select" style="width:100%" required id="pilihPengguna">
-                                        @php
-                                            $kelas = [];
-                                            if (is_array($data)) {
-                                                $i = 0;
-                                                foreach ($data as $d) {
-                                                    $i++;
-                                                    if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika' || $data[$i - 1]['struktur'] == 'Prodi MI') {
+                        <br/>
+                        <form role="form" action="{{ url('pengguna/update') }}" method="post" id="penggunaForm">
+                            @csrf
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" name="png_id" value="{{ $pengguna->png_id }}" id="png_id">
+                            </div>
+                            <br>
+                            
+                            <label for="png_nama">Nama Pengguna<span style="color: red">*</span></label>
+                            <input class="form-control" name="png_username" id="png_username" value="{{ $pengguna->png_username }}" type="hidden" />
+                            <select name="png_nama" class="form-select" style="width:100%" required id="pilihPengguna">
+                                @php
+                                    $kelas = [];
+                                    if (is_array($data)) {
+                                        $i = 0;
+                                        foreach ($data as $d) {
+                                            $i++;
+                                            if ($data[$i - 1]['struktur'] == 'Unit Pelayanan Teknis Informatika' || $data[$i - 1]['struktur'] == 'Prodi MI') {
                                                 array_push($kelas, $data[$i - 1]['nama']);
                                             }
-                                                }
-                                                sort($kelas);
-                                                $arrayLength = count($kelas);
-                                            } else {
-                                                $arrayLength = 0;
-                                            }
-                                        @endphp
+                                        }
+                                        sort($kelas);
+                                        $arrayLength = count($kelas);
+                                    } else {
+                                        $arrayLength = 0;
+                                    }
+                                @endphp
 
-                                        @for ($i = 0; $i < $arrayLength; $i++)
-                                        @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
+                                @for ($i = 0; $i < $arrayLength; $i++)
+                                    @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
                                         <option value="{{ $kelas[$i] }}" {{ $pengguna->nama_pengguna == $kelas[$i] ? 'selected' : '' }}>{{ $kelas[$i] }}</option>
-                                        @endif                                    
-                                        @endfor
-                                    </select>
-                                    </div>
-                                    <br>
-                                    <div class="form-group">
-                                        <label for="role">Role<span style="color: red">*</span></label>
-                                        <select name="role" class="form-select" style="width:100%"  required required id="role" onchange="cekExist()">
-                                                <option value="KOORDINATOR TINGKAT" @selected($pengguna->role == "KOORDINATOR TINGKAT")>KOORDINATOR TINGKAT</option>
-                                                <option value="KOORDINATOR SOP dan TATIB" @selected($pengguna->role == "KOORDINATOR SOP dan TATIB")>KOORDINATOR SOP dan TATIB</option>
-                                                <option value="SEKRETARIS PRODI" @selected($pengguna->role == "SEKRETARIS PRODI")>SEKRETARIS PRODI</option>
-                                           
-                                        </select>
-                                    </div>
-                                    <br>
-                                    <div class="form-group kelas-field">
-                                        <label for="kelas">Kelas<span style="color: red">*</span></label>
-                                        <select name="kelas" class="form-select" style="width:100%" required>
-                                            @php
-                                                $kelas = [];
-                                                $semuaKelas = 'Semua kelas';
-                                                $i = 0;
-                                                foreach ($dataMahasiswa as $dm) {
-                                                    $i++;
-                                                    array_push($kelas, $dataMahasiswa[$i - 1]['kelas']);
-                                                }
-                                                sort($kelas);
-                                                $arrayLength = count($kelas);
-                                            @endphp
-                                            @for ($i = 1; $i < $arrayLength; $i++)
-                                                @if($kelas[$i] != $kelas[$i-1])
-                                                    <option value="{{ $kelas[$i] }}" {{ $pengguna->kelas == $kelas[$i] ? 'selected' : '' }}>{{ $kelas[$i] }}</option>
-                                                @endif
-                                            @endfor
-                                        </select>
-                                    </div>
-                                    <br>
-                                    <button type="reset" class="btn btn-secondary m-2" data-dismis="modal" onclick="history.go(-1);">Kembali</button>
-                                    &nbsp; &nbsp;
-                                    <button type="submit" class="btn btn-primary m-2">Ubah</button>
-                                </form>
+                                    @endif                                    
+                                @endfor
+                            </select>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="png_role">Role<span style="color: red">*</span></label>
+                            <select name="png_role" class="form-select" style="width:100%"  required id="png_role" onchange="cekExist()">
+                                <option value="KOORDINATOR TINGKAT" {{ $pengguna->png_role == "KOORDINATOR TINGKAT" ? 'selected' : '' }}>KOORDINATOR TINGKAT</option>
+                                <option value="KOORDINATOR SOP dan TATIB" {{ $pengguna->png_role == "KOORDINATOR SOP dan TATIB" ? 'selected' : '' }}>KOORDINATOR SOP dan TATIB</option>
+                                <option value="SEKRETARIS PRODI" {{ $pengguna->png_role == "SEKRETARIS PRODI" ? 'selected' : '' }}>SEKRETARIS PRODI</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="form-group kelas-field">
+                            <label for="png_kelas">Kelas<span style="color: red">*</span></label>
+                            <select name="png_kelas" class="form-select" style="width:100%" required>
+                                @php
+                                    $kelas = [];
+                                    $semuaKelas = 'Semua kelas';
+                                    $i = 0;
+                                    foreach ($dataMahasiswa as $dm) {
+                                        $i++;
+                                        array_push($kelas, $dataMahasiswa[$i - 1]['kelas']);
+                                    }
+                                    sort($kelas);
+                                    $arrayLength = count($kelas);
+                                @endphp
+                                @for ($i = 1; $i < $arrayLength; $i++)
+                                    @if($kelas[$i] != $kelas[$i-1])
+                                        <option value="{{ $kelas[$i] }}" {{ $pengguna->png_kelas == $kelas[$i] ? 'selected' : '' }}>{{ $kelas[$i] }}</option>
+                                    @endif
+                                @endfor
+                            </select>
+                        </div>
+                        <br>
+                        <button type="reset" class="btn btn-secondary m-2" data-dismis="modal" onclick="history.go(-1);">Kembali</button>
+                        &nbsp; &nbsp;
+                        <button type="submit" class="btn btn-primary m-2">Ubah</button>
+                    </form>
 
-                    </div>
                 </div>
-                <!-- Widgets End -->
             </div>
             <!-- Widgets End -->
-
         </div>
-        </div><!-- End Reports -->
+    </div><!-- End Reports -->
 
-    </section>
-    <script>
+</section>
+<script>
     $(document).ready(function () {
         
-        var selectedRole = $('#role option:selected').val();
+        var selectedRole = $('#png_role option:selected').val();
         if (selectedRole == 'KOORDINATOR TINGKAT') {
             $('.kelas-field').show();
         } else {
             $('.kelas-field').hide();
-            $('select[name="kelas"]').removeAttr('required');
+            $('select[name="png_kelas"]').removeAttr('required');
         }
         function changeRole() {
-            $('#role').on('change', function () {
+            $('#png_role').on('change', function () {
                 
-                var selectedRole = $('#role option:selected').val();
+                var selectedRole = $('#png_role option:selected').val();
                 if (selectedRole === 'KOORDINATOR TINGKAT') {
                     $('.kelas-field').show();
-                    $('select[name="kelas"]').prop('required', true);
+                    $('select[name="png_kelas"]').prop('required', true);
                 } else {
                     $('.kelas-field').hide();
-                    $('select[name="kelas"]').prop('required', false);
+                    $('select[name="png_kelas"]').prop('required', false);
                 }
                 
             });
@@ -176,10 +172,10 @@
         function changePengguna() {
             $('#pilihPengguna').on('change', function () {
                 var selectedUsername = $('#pilihPengguna option:selected').val();
-                $('#username').val(selectedUsername);
+                $('#png_username').val(selectedUsername);
                 cekExist(selectedUsername);
                 var selectedNamaPengguna = $('#pilihPengguna option:selected').text();
-                $('#nama_pengguna').val(selectedNamaPengguna);
+                $('#png_nama').val(selectedNamaPengguna);
                 console.log(selectedUsername, selectedNamaPengguna);
             });
         }
@@ -189,18 +185,18 @@
     });
 
     const cekExist = (selectedUsername = null) => {
-        var selectedRole = $('#role option:selected').val();
+        var selectedRole = $('#png_role option:selected').val();
 
         if (selectedUsername == null) {
-            selectedUsername = $('#username').val();
+            selectedUsername = $('#png_username').val();
         }
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        var id = $('#id').val();
+        var id = $('#png_id').val();
         $.ajax({
             url: "{{route('checkUserExistenceEdit')}}",
             type: 'POST', 
             headers: {
-            'X-CSRF-TOKEN': csrfToken
+                'X-CSRF-TOKEN': csrfToken
             },
             data: { username: selectedUsername, role: selectedRole, id: id },
             success: function (result) {
@@ -230,11 +226,11 @@
         });
 
         if (selectedRole === 'KOORDINATOR SOP dan TATIB' || selectedRole === 'SEKRETARIS PRODI') {
-        //$('.kelas-field').hide(); // Hide the field when role is "KOORDINATOR SOP dan TATIB"
-        $('select[name="kelas"]').val('Semua kelas');
-    } else {
-        $('.kelas-field').show();
-    }
+            //$('.kelas-field').hide(); // Hide the field when role is "KOORDINATOR SOP dan TATIB"
+            $('select[name="png_kelas"]').val('Semua kelas');
+        } else {
+            $('.kelas-field').show();
+        }
     }
 </script>
 
