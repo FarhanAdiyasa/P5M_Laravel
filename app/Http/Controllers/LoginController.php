@@ -30,13 +30,12 @@ class LoginController extends Controller
             $dataKaryawan = $response->json();
         }
     
-        $check2 = User::where("username", $request->input('username'))->first();
-    
+        $check2 = User::where("png_username", $request->input('username'))->first();
         if ($check2) {
             foreach ($dataKaryawan as $kry) {
                 $usn = $kry['username'];
     
-                if ($usn != "" && $usn == $check2->username) {
+                if ($usn != "" && $usn == $check2->png_username) {
                     if (!isset($kry['password']) || $kry['password'] == $request->input('password')) {
                         Auth::login($check2);
     
