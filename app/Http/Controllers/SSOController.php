@@ -13,9 +13,8 @@ class SSOController extends Controller
 
     public function index()
     {
-        $usn = Auth::user()->username;
+        $usn = Auth::user()->png_username;
         $roles = User::where("png_username", $usn)->where("png_status", 1)->pluck("png_role")->toArray();
-    
         return view('sso', ['roles' => $roles]);
     }
     
@@ -26,7 +25,7 @@ class SSOController extends Controller
         session()->flush();
 
         Auth::login($check2);
-        session(['role' =>$check2->role]);
+        session(['role' =>$check2->png_role]);
         return redirect()->route('idx');
     }
 

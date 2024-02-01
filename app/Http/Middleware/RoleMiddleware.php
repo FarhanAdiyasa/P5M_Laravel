@@ -9,7 +9,7 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, ...$roles)
     {
-        if (Auth::check() && in_array(Auth::user()->role, $roles)) {
+        if (Auth::check() && in_array(Auth::user()->png_role, $roles)) {
             return $next($request);
         }
 

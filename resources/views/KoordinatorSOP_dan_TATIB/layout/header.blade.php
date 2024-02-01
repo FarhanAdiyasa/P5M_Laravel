@@ -73,7 +73,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-              Selamat Datang {{ Auth::user()->nama_pengguna }}
+              Selamat Datang {{ Auth::user()->png_nama }}
           </a>
         <li class="nav-item d-block d-lg-none">
           <a class="nav-link nav-icon search-bar-toggle " href="#">
