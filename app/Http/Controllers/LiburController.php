@@ -39,7 +39,7 @@ class LiburController extends Controller
         $liburArray = DB::select('EXEC sp_get_libur ?', [$id]);
 
         // Convert the array to an object
-    $libur = (object) $liburArray[0];
+        $libur = (object) $liburArray[0];
 
         return view('KoordinatorSOP_dan_TATIB/libur/libur_edit', compact('libur'));
     }

@@ -54,6 +54,7 @@ class DashboardController extends Controller
     
         return $response;
     }
+    
     public function getTotalPelanggaranData($startDate, $endDate)
     {
         // Set the end time to 23:59:59
