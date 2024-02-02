@@ -63,7 +63,7 @@
                                     <th class="text-center">NIM</th>
                                     <th class="text-center">Nama Mahasiswa</th>
                                     @foreach ($pelanggaran as $m)
-                                        <th class="text-center">{{ $m->nama_pelanggaran }}</th>
+                                        <th class="text-center">{{ $m->plg_nama }}</th>
                                     @endforeach
                                 </tr>
                             </thead>
@@ -80,9 +80,9 @@
                                                 @php
                                                     $ischecked = '';
                                                     foreach ($get3tabel as $g) {
-                                                        if ($g->id_pelanggaran == $m->id && 
-                                                            $dm['nim'] == $g->nim_mahasiswa && 
-                                                            $tanggal == date('Y-m-d', strtotime($g->tgl_transaksi))) {
+                                                        if ($g->plg_id == $m->plg_id && 
+                                                            $dm['nim'] == $g->p5m_nim && 
+                                                            $tanggal == date('Y-m-d', strtotime($g->p5m_tanggal))) {
                                                             $ischecked = 'checked';
                                                         }
 

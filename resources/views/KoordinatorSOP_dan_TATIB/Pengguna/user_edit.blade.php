@@ -75,7 +75,7 @@
                             
                             <label for="png_nama">Nama Pengguna<span style="color: red">*</span></label>
                             <input class="form-control" name="png_username" id="png_username" value="{{ $pengguna->png_username }}" type="hidden" />
-                            <select name="png_nama" class="form-select" style="width:100%" required id="pilihPengguna">
+                            <select name="png_nama" class="form-select" style="width:100%" required id="pilihPengguna" >
                                 @php
                                     $kelas = [];
                                     if (is_array($data)) {
@@ -95,7 +95,7 @@
 
                                 @for ($i = 0; $i < $arrayLength; $i++)
                                     @if ($i === 0 || $kelas[$i] != $kelas[$i-1])
-                                        <option value="{{ $kelas[$i] }}" {{ $pengguna->nama_pengguna == $kelas[$i] ? 'selected' : '' }}>{{ $kelas[$i] }}</option>
+                                        <option value="{{ $kelas[$i] }}" {{ $pengguna->png_nama == $kelas[$i] ? 'selected' : '' }}>{{ $kelas[$i] }}</option>
                                     @endif                                    
                                 @endfor
                             </select>

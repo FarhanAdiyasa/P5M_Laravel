@@ -28,35 +28,34 @@ class PenggunaController extends Controller
 
     function save (Request $request){
 
-
             // Retrieve the API data
-    $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
-    $apiData = json_decode(file_get_contents($url), true);
+        $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
+        $apiData = json_decode(file_get_contents($url), true);
 
-    // Get the username from API based on 'png_nama'
-    $png_nama = $request->input("png_nama");
-    $apiUser = collect($apiData)->firstWhere('nama', $png_nama);
+        // Get the username from API based on 'png_nama'
+        $png_nama = $request->input("png_nama");
+        $apiUser = collect($apiData)->firstWhere('nama', $png_nama);
 
-    if (!$apiUser) {
-        // Handle the case where the user is not found in the API data
-        return redirect()->route('p.index')->with('success', 'Pengguna Berhasil Ditambahkan');
-    }
+        if (!$apiUser) {
+            // Handle the case where the user is not found in the API data
+            return redirect()->route('p.index')->with('success', 'Pengguna Berhasil Ditambahkan');
+        }
 
 
-    // Use the API username or adjust this based on the actual API response structure
-    $png_username = $apiUser['png_username'];
-    $png_role = $request->input("png_role");
-    if($png_role == "KOORDINATOR TINGKAT"){
-        $png_kelas = $request->input("png_kelas");    
-    }else{
-        $png_kelas = "Semua Kelas";
-    }
+        // Use the API username or adjust this based on the actual API response structure
+        $png_username = $apiUser['username'];
+        $png_role = $request->input("png_role");
+        if($png_role == "KOORDINATOR TINGKAT"){
+            $png_kelas = $request->input("png_kelas");    
+        }else{
+            $png_kelas = "Semua Kelas";
+        }
 
-    DB::statement('EXEC sp_insert_pengguna ?, ?, ?, ?', [$png_username,$png_nama, $png_role, $png_kelas]);
-    $log_aktifitas = "Tambah Pengguna " . $png_nama;
-    $log_tanggal =  now()->format('Y-m-d');
+        DB::statement('EXEC sp_insert_pengguna ?, ?, ?, ?', [$png_username,$png_nama, $png_role, $png_kelas]);
+        $log_aktifitas = "Tambah Pengguna " . $png_nama;
+        $log_tanggal =  now()->format('Y-m-d');
 
-    DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
+        DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
 
 
         return redirect()->route('p.index')->with('success', 'Data berhasil ditambahkan.');
@@ -89,7 +88,7 @@ class PenggunaController extends Controller
 
         
             // Use the API username or adjust this based on the actual API response structure
-            $png_username = $apiUser['png_username'];
+            $png_username = $apiUser['username'];
             $png_role = $request->input("png_role");
             if($png_role == "KOORDINATOR TINGKAT"){
                 $png_kelas = $request->input("png_kelas");    

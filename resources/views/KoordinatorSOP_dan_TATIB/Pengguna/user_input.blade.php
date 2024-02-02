@@ -116,8 +116,8 @@
                                 <br>
 
                                 <div class="form-group kelas-field">
-                <label for="png_kelas">Kelas<span style="color: red">*</span></label>
-                <select name="png_kelas" class="form-select" style="width:100%" required>
+                                    <label for="png_kelas">Kelas<span style="color: red">*</span></label>
+                                    <select name="png_kelas" class="form-select" style="width:100%" required>
                                         <option value="">-- Pilih Kelas --</option>
                                         @php
                                             $kelas = [];

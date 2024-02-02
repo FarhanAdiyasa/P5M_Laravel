@@ -64,7 +64,7 @@
                                     <th class="text-center">Nama Mahasiswa</th>
 
                                     @foreach ($pelanggaran as $m)
-                                        <th class="text-center">{{ $m->nama_pelanggaran }}</th>
+                                        <th class="text-center">{{ $m->plg_nama }}</th>
                                     @endforeach
                                 </tr>
                             </thead>
@@ -84,9 +84,9 @@
 
                                                 @foreach ($pelanggaran as $m)
                                                     <td class="text-center">
-                                                        <input type="checkbox" id="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
-                                                            name="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
-                                                            value="{{ $m->jam_minus }}">
+                                                        <input type="checkbox" id="{{ 'CB_'.$dm['nim'].'_'.$m->plg_id }}"
+                                                            name="{{ 'CB_'.$dm['nim'].'_'.$m->plg_id }}"
+                                                            value="{{ $m->plg_jamMinus }}">
                                                     </td>
                                                 @endforeach
                                             </tr>
@@ -104,9 +104,9 @@
 
                                             @foreach ($pelanggaran as $m)
                                                 <td class="text-center">
-                                                    <input type="checkbox" id="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
-                                                        name="{{ 'CB_'.$dm['nim'].'_'.$m->id }}"
-                                                        value="{{ $m->jam_minus }}">
+                                                    <input type="checkbox" id="{{ 'CB_'.$dm['nim'].'_'.$m->plg_id }}"
+                                                        name="{{ 'CB_'.$dm['nim'].'_'.$m->plg_id }}"
+                                                        value="{{ $m->plg_jamMinus }}">
                                                 </td>
                                             @endforeach
                                         </tr>

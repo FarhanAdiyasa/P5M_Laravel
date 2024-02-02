@@ -96,25 +96,25 @@ class P5MController extends Controller
      
          foreach ($dataMahasiswa as $dm) {
              foreach ($pelanggaran as $m) {
-                 if (request()->input('CB_' . $dm['nim'] . '_' . $m->id)) {
+                 if (request()->input('CB_' . $dm['nim'] . '_' . $m->plg_id)) {
                      if ($nim_lama != $dm['nim']) {
                          $total_jam_minus = 0;
                      }
      
-                     $total_jam_minus += request()->input('CB_' . $dm['nim'] . '_' . $m->id);
+                     $total_jam_minus += request()->input('CB_' . $dm['nim'] . '_' . $m->plg_id);
                      $nim_lama = $dm['nim'];
                  }
              }
      
              if ($nim_lama == $dm['nim']) {
                  $kirimP5M = [
-                     'nim_mahasiswa' => $dm['nim'],
-                     'tgl_transaksi' => now(),
+                     'p5m_nim' => $dm['nim'],
+                     'p5m_tanggal' => now(),
                      //'kelas' => $dm['kelas'],
                      //'total_jam_minus' => $total_jam_minus,
                  ];
      
-                 DB::table('p5m')->insert($kirimP5M);
+                 DB::table('p5m_trp5m')->insert($kirimP5M);
      
                  $status = 0;
                  $total_jam_minus = 0;
@@ -122,32 +122,32 @@ class P5MController extends Controller
                  $id_P5M = 0;
      
                  foreach ($pelanggaran as $m) {
-                     if (request()->input('CB_' . $dm['nim'] . '_' . $m->id)) {
+                     if (request()->input('CB_' . $dm['nim'] . '_' . $m->plg_id)) {
                          if ($nim_lama != $dm['nim']) {
                              $total_jam_minus = 0;
                          }
      
-                         $total_jam_minus += request()->input('CB_' . $dm['nim'] . '_' . $m->id);
+                         $total_jam_minus += request()->input('CB_' . $dm['nim'] . '_' . $m->plg_id);
                          $nim_lama = $dm['nim'];
      
                          $p5mModels = DB::select('EXEC sp_get_all_p5m');
      
                          foreach ($p5mModels as $tr) {
-                             $id_P5M = $tr->id_p5m;
+                             $p5m_id = $tr->p5m_id;
                          }
      
-                         DB::table('detail_p5m')->insert([
-                             'id_p5M' => $id_P5M,
-                             'id_pelanggaran' => $m->id,
+                         DB::table('p5m_dtlp5m')->insert([
+                             'p5m_id' => $p5m_id,
+                             'plg_id' => $m->plg_id,
                          ]);
                      }
                  }
              }
          }
-         $aktifitas = "Melakukan P5M";
-         $tanggal =  now()->format('Y-m-d');
+         $log_aktifitas = "Melakukan P5M";
+         $log_tanggal =  now()->format('Y-m-d');
      
-        DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+        DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
      
      
          return redirect()->route('p5m')->with('success', 'Pelanggaran P5M Berhasil Ditambahkan');

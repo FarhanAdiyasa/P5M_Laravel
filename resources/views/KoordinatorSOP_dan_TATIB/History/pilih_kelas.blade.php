@@ -36,7 +36,7 @@
                                 <tr>
                                     <td>{{ $dm['kelas'] }}</td>
                                     <td>
-                                        <a href="{{ url('pilihkls/' . $dm['kelas']) }}" class="list-group-item list-group-item-action mb-3">
+                                        <a href="{{ url('histori_p5m/' . $dm['kelas']) }}" class="list-group-item list-group-item-action mb-3">
                                             <button type="button" class="btn btn-primary"> Pilih Kelas</button>
                                         </a>
                                     </td>
