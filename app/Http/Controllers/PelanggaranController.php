@@ -27,28 +27,28 @@ class PelanggaranController extends Controller
     public function save(Request $request)
     {
         $request->validate([
-            'nama_pelanggaran' => [
+            'plg_nama' => [
                 'required',
                 'max:255',
                 
-                Rule::unique('pelanggaran', 'nama_pelanggaran')
+                Rule::unique('p5m_mspelanggaran', 'plg_nama')
                 ->where(function ($query) {
-                    return $query->where('status', '1');
+                    return $query->where('plg_status', '1');
                 })
                 ->ignore($request->id)            ],
-            'jam_minus' => 'required|numeric',
+            'plg_jamMinus' => 'required|numeric',
         ]);
         
-        $nama_pelanggaran = $request->input('nama_pelanggaran');
-        $jam_minus = $request->input('jam_minus');
+        $plg_nama = $request->input('plg_nama');
+        $plg_jamMinus = $request->input('plg_jamMinus');
     
         // Assuming sp_insert_pelanggaran takes only two parameters, adjust this accordingly
-        DB::statement('EXEC sp_insert_pelanggaran ?, ?', [$nama_pelanggaran, $jam_minus]);
+        DB::statement('EXEC sp_insert_pelanggaran ?, ?', [$plg_nama, $plg_jamMinus]);
 
-        $aktifitas = "Tambah Pelanggaran " . $nama_pelanggaran;
-        $tanggal =  now()->format('Y-m-d');
+        $log_aktifitas = "Tambah Pelanggaran " . $plg_nama;
+        $log_tanggal =  now()->format('Y-m-d');
     
-        DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+        DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
     
         return redirect('pelanggaran')->with('success', 'Data berhasil ditambahkan.');
     }
@@ -68,46 +68,46 @@ class PelanggaranController extends Controller
 
     public function update(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('plg_id');
     
         $request->validate([
-            'nama_pelanggaran' => [
+            'plg_nama' => [
                 'required',
                 'max:255',
-                Rule::unique('pelanggaran', 'nama_pelanggaran')
+                Rule::unique('p5m_mspelanggaran', 'plg_nama')
                     ->where(function ($query) {
-                        return $query->where('status', 1);
+                        return $query->where('plg_status', 1);
                     })
-                    ->ignore($id)
+                    ->ignore($id, 'plg_id')
             ],
-            'jam_minus' => 'required|numeric',
+            'plg_jamMinus' => 'required|numeric',
         ]);
     
-        $nama_pelanggaran = $request->input('nama_pelanggaran');
-        $jam_minus = $request->input('jam_minus');
+        $plg_nama = $request->input('plg_nama');
+        $plg_jamMinus = $request->input('plg_jamMinus');
     
-        DB::statement('EXEC sp_update_pelanggaran ?, ?, ?', [$id, $nama_pelanggaran, $jam_minus]);
+        DB::statement('EXEC sp_update_pelanggaran ?, ?, ?', [$id, $plg_nama, $plg_jamMinus]);
     
-        $aktifitas = "Ubah Pelanggaran " . $nama_pelanggaran;
-        $tanggal = now()->format('Y-m-d');
+        $log_aktifitas = "Ubah Pelanggaran " . $plg_nama;
+        $log_tanggal = now()->format('Y-m-d');
     
-        DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+        DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
     
         return redirect('pelanggaran')->with('update', 'Data berhasil diubah.');
     }
     
     public function delete($id)
     {
-        $user = DB::select('SELECT nama_pelanggaran FROM pelanggaran WHERE id = ?', [$id]);
+        $user = DB::select('SELECT plg_nama FROM p5m_mspelanggaran WHERE plg_id = ?', [$id]);
 
-        $nama_pelanggaran = strval($user[0]->nama_pelanggaran);
+        $plg_nama = strval($user[0]->plg_nama);
 
         DB::statement('EXEC sp_delete_pelanggaran ?', [$id]);
 
-        $aktifitas = "Hapus Pelanggaran " . $nama_pelanggaran;
-        $tanggal =  now()->format('Y-m-d');
+        $log_aktifitas = "Hapus Pelanggaran " . $plg_nama;
+        $log_tanggal =  now()->format('Y-m-d');
     
-        DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+        DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
 
         return redirect('pelanggaran')->with('delete', 'Data berhasil dihapus');
     }

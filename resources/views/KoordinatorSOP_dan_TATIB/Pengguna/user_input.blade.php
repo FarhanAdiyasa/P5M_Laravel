@@ -69,8 +69,8 @@
                                 <br>
                                 <div class="form-group">
 
-                                    <label for="nama_pengguna">Nama Pengguna<span style="color: red">*</span></label>
-                                    <select name="nama_pengguna" class="form-select" style="width:100%" required id="pilihPengguna">
+                                    <label for="png_nama">Nama Pengguna<span style="color: red">*</span></label>
+                                    <select name="png_nama" class="form-select" style="width:100%" required id="pilihPengguna">
                                         <option value="">-- Pilih Nama Pengguna --</option>
 
                                         <?php
@@ -92,32 +92,32 @@
                                         }
                                         ?>
                                     </select>
-                                    @error('nama_pengguna')
+                                    @error('png_nama')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <br>
 
-                                <input type="hidden" name="username" id="username" value="">
-                            <input type="hidden" name="nama_pengguna" id="nama_pengguna" value="">
+                                <input type="hidden" name="png_username" id="png_username" value="">
+                            <input type="hidden" name="png_nama" id="png_nama" value="">
 
                                 <div class="form-group">
-                                    <label for="role">Role<span style="color: red">*</span></label>
-                                    <select name="role" class="form-select" style="width:100%" required id="role" onchange="cekExist()">
+                                    <label for="png_role">Role<span style="color: red">*</span></label>
+                                    <select name="png_role" class="form-select" style="width:100%" required id="png_role" onchange="cekExist()">
                                         <option value="">-- Pilih Role --</option>
                                         <option value="KOORDINATOR SOP dan TATIB">KOORDINATOR SOP dan TATIB</option>
                                         <option value="KOORDINATOR TINGKAT">KOORDINATOR TINGKAT</option>
                                         <option value="SEKRETARIS PRODI">SEKRETARIS PRODI</option>
                                     </select>
-                                    @error('role')
+                                    @error('png_role')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <br>
 
                                 <div class="form-group kelas-field">
-                                    <label for="kelas">Kelas<span style="color: red">*</span></label>
-                                    <select name="kelas" class="form-select" style="width:100%" required>
+                                    <label for="png_kelas">Kelas<span style="color: red">*</span></label>
+                                    <select name="png_kelas" class="form-select" style="width:100%" required>
                                         <option value="">-- Pilih Kelas --</option>
                                         @php
                                             $kelas = [];
@@ -136,13 +136,13 @@
                                             @endif
                                         @endfor
                                     </select>
-                                    @error('kelas')
+                                    @error('png_kelas')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <br>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="status" value="1" hidden>
+                                    <input type="text" class="form-control" name="png_status" value="1" hidden>
                                 </div>
 
                                 <button type="reset" class="btn btn-secondary m-2" data-dismis="modal"
@@ -159,8 +159,8 @@
         <script>
     $(document).ready(function () {
         function changeRole() {
-            $('#role').on('change', function () {
-                var selectedRole = $('#role option:selected').val();
+            $('#png_role').on('change', function () {
+                var selectedRole = $('#png_role option:selected').val();
                 if (selectedRole === 'KOORDINATOR TINGKAT') {
                     $('.kelas-field').show();
                     $('select[name="kelas"]').prop('required', true);
@@ -174,10 +174,10 @@
         function changePengguna() {
             $('#pilihPengguna').on('change', function () {
                 var selectedUsername = $('#pilihPengguna option:selected').val();
-                $('#username').val(selectedUsername);
+                $('#png_username').val(selectedUsername);
                 cekExist(selectedUsername);
                 var selectedNamaPengguna = $('#pilihPengguna option:selected').text();
-                $('#nama_pengguna').val(selectedNamaPengguna);
+                $('#png_nama').val(selectedNamaPengguna);
                 console.log(selectedUsername, selectedNamaPengguna);
             });
         }
@@ -205,10 +205,10 @@
     });
 
     const cekExist = (selectedUsername = null) => {
-        var selectedRole = $('#role option:selected').val();
+        var selectedRole = $('#png_role option:selected').val();
 
         if (selectedUsername == null) {
-            selectedUsername = $('#username').val();
+            selectedUsername = $('#png_username').val();
         }
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -218,7 +218,7 @@
         headers: {
         'X-CSRF-TOKEN': csrfToken
         },
-        data: { username: selectedUsername, role: selectedRole },
+        data: { png_username: selectedUsername, png_role: selectedRole },
        
         success: function (result) {
             if (result.exists ) {

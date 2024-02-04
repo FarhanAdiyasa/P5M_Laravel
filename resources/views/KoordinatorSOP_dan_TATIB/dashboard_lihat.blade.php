@@ -61,7 +61,7 @@
                         <div class="activity">
                             @foreach ($model->sortByDesc('tanggal')->take(5) as $item)
                                 @php
-                                $activityDate = Carbon::parse($item->tanggal)->format('Y-m-d');
+                                $activityDate = Carbon::parse($item->log_tanggal)->format('Y-m-d');
                                 $today = now()->format('Y-m-d');
                                 $yesterday = now()->subDay()->format('Y-m-d');
                                 $displayDate = ($activityDate == $today) ? 'Today' : (($activityDate == $yesterday) ? 'Yesterday' : $activityDate);
@@ -69,7 +69,7 @@
                                 <div class="activity-item d-flex">
                                     <div class="activite-label">{{ $displayDate }}</div>
                                     <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                    <div class="activity-content">{{ Auth::user()->nama_pengguna }} {{ $item->aktifitas }}</div>
+                                    <div class="activity-content">{{ Auth::user()->nama_pengguna }} {{ $item->log_aktifitas }}</div>
                                 </div>
                             @endforeach
                         </div>

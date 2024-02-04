@@ -28,35 +28,34 @@ class PenggunaController extends Controller
 
     function save (Request $request){
 
-
             // Retrieve the API data
-    $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
-    $apiData = json_decode(file_get_contents($url), true);
+        $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
+        $apiData = json_decode(file_get_contents($url), true);
 
-    // Get the username from API based on 'nama_pengguna'
-    $nama_pengguna = $request->input("nama_pengguna");
-    $apiUser = collect($apiData)->firstWhere('nama', $nama_pengguna);
+        // Get the username from API based on 'png_nama'
+        $png_nama = $request->input("png_nama");
+        $apiUser = collect($apiData)->firstWhere('nama', $png_nama);
 
-    if (!$apiUser) {
-        // Handle the case where the user is not found in the API data
-        return redirect()->route('p.index')->with('success', 'Pengguna Berhasil Ditambahkan');
-    }
+        if (!$apiUser) {
+            // Handle the case where the user is not found in the API data
+            return redirect()->route('p.index')->with('success', 'Pengguna Berhasil Ditambahkan');
+        }
 
 
-    // Use the API username or adjust this based on the actual API response structure
-    $username = $apiUser['username'];
-    $role = $request->input("role");
-    if($role == "KOORDINATOR TINGKAT"){
-        $kelas = $request->input("kelas");    
-    }else{
-        $kelas = "Semua Kelas";
-    }
+        // Use the API username or adjust this based on the actual API response structure
+        $png_username = $apiUser['username'];
+        $png_role = $request->input("png_role");
+        if($png_role == "KOORDINATOR TINGKAT"){
+            $png_kelas = $request->input("png_kelas");    
+        }else{
+            $png_kelas = "Semua Kelas";
+        }
 
-    DB::statement('EXEC sp_insert_pengguna ?, ?, ?, ?', [$username,$nama_pengguna, $role, $kelas]);
-    $aktifitas = "Tambah Pengguna " . $nama_pengguna;
-    $tanggal =  now()->format('Y-m-d');
+        DB::statement('EXEC sp_insert_pengguna ?, ?, ?, ?', [$png_username,$png_nama, $png_role, $png_kelas]);
+        $log_aktifitas = "Tambah Pengguna " . $png_nama;
+        $log_tanggal =  now()->format('Y-m-d');
 
-    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+        DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
 
 
         return redirect()->route('p.index')->with('success', 'Data berhasil ditambahkan.');
@@ -74,13 +73,13 @@ class PenggunaController extends Controller
 
     function update(Request $request){
             // Retrieve the API data
-            $id = $request->input("id");
+            $id = $request->input("png_id");
             $url = "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getListKaryawan";
             $apiData = json_decode(file_get_contents($url), true);
         
-            // Get the username from API based on 'nama_pengguna'
-            $nama_pengguna = $request->input("nama_pengguna");
-            $apiUser = collect($apiData)->firstWhere('nama', $nama_pengguna);
+            // Get the username from API based on 'png_nama'
+            $png_nama = $request->input("png_nama");
+            $apiUser = collect($apiData)->firstWhere('nama', $png_nama);
         
             if (!$apiUser) {
                 return redirect()->route('p.index');
@@ -89,20 +88,20 @@ class PenggunaController extends Controller
 
         
             // Use the API username or adjust this based on the actual API response structure
-            $username = $apiUser['username'];
-            $role = $request->input("role");
-            if($role == "KOORDINATOR TINGKAT"){
-                $kelas = $request->input("kelas");    
+            $png_username = $apiUser['username'];
+            $png_role = $request->input("png_role");
+            if($png_role == "KOORDINATOR TINGKAT"){
+                $png_kelas = $request->input("png_kelas");    
             }else{
-                $kelas = "Semua Kelas";
+                $png_kelas = "Semua Kelas";
             }
           
-        DB::statement('EXEC sp_update_pengguna ?, ?, ?, ?, ?, 1', [$id, $username,$nama_pengguna, $role, $kelas]);
+        DB::statement('EXEC sp_update_pengguna ?, ?, ?, ?, ?, 1', [$id, $png_username,$png_nama, $png_role, $png_kelas]);
 
-        $aktifitas = "Ubah Pengguna " . $nama_pengguna;
-        $tanggal =  now()->format('Y-m-d');
+        $log_aktifitas = "Ubah Pengguna " . $png_nama;
+        $log_tanggal =  now()->format('Y-m-d');
     
-    DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+    DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
     
         return redirect()->route('p.index')->with('update', 'Data berhasil diubah.');
 }
@@ -110,16 +109,16 @@ class PenggunaController extends Controller
 
     function delete($id){
 
-        $user = DB::select('SELECT username FROM Pengguna WHERE id = ?', [$id]);
+        $user = DB::select('SELECT png_username FROM p5m_mspengguna WHERE png_id = ?', [$id]);
 
         DB::statement('EXEC sp_delete_pengguna ?', [$id]);
 
-        $username = strval($user[0]->username);   
+        $png_username = strval($user[0]->png_username);   
 
-        $aktifitas = "Hapus Pengguna " . $username;
-        $tanggal =  now()->format('Y-m-d');
+        $log_aktifitas = "Hapus Pengguna " . $png_username;
+        $log_tanggal =  now()->format('Y-m-d');
         
-        DB::statement('EXEC sp_insert_log ?, ?', [$aktifitas, $tanggal]);
+        DB::statement('EXEC sp_insert_log ?, ?', [$log_aktifitas, $log_tanggal]);
 
         return redirect()->route('p.index')->with('delete', 'Data berhasil dihapus');
        
@@ -127,12 +126,12 @@ class PenggunaController extends Controller
 
     public function checkUserExistence(Request $request)
     {
-        $username = $request->input('username');
-        $role = $request->input('role');
+        $png_username = $request->input('png_username');
+        $png_role = $request->input('png_role');
 
-        $userExists = User::where('nama_pengguna', $username)
-            ->where('role', $role)
-            ->where('status', 1)
+        $userExists = User::where('png_nama', $png_username)
+            ->where('png_role', $png_role)
+            ->where('png_status', 1)
             ->exists();
 
         return response()->json(['exists' => $userExists]);
@@ -140,17 +139,17 @@ class PenggunaController extends Controller
 
     public function checkUserExistenceEdit(Request $request)
     {
-        $username = $request->input('username');
-        $role = $request->input('role');
-        $id = $request->input('id');
+        $png_username = $request->input('png_username');
+        $png_role = $request->input('png_role');
+        $id = $request->input('png_id');
 
-        $userExists = User::where('nama_pengguna', $username)
-            ->where('role', $role)
+        $userExists = User::where('png_nama', $png_username)
+            ->where('png_role', $png_role)
             ->where('status', 1)
-            ->where('id', '!=', $id)
+            ->where('png_id', '!=', $id)
             ->exists();
 
-        return response()->json(['exists' => $userExists, 'username'=>$username, 'role'=>$role]);
+        return response()->json(['exists' => $userExists, 'png_username'=>$png_username, 'png_role'=>$png_role]);
     }
 
 

@@ -49,16 +49,16 @@
                     @foreach ($pelanggaran as $m)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $m->nama_pelanggaran }}</td>
-                            <td>{{ $m->jam_minus }} jam</td>
+                            <td>{{ $m->plg_nama }}</td>
+                            <td>{{ $m->plg_jamMinus }} jam</td>
                             <td> 
                                 
-                                <a href="{{ url('pelanggaranedit/'.$m->id) }}" class="btn" style="color: #0275d8">
+                                <a href="{{ url('pelanggaranedit/'.$m->plg_id) }}" class="btn" style="color: #0275d8">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#" class="delete-btn" data-id="{{ $m->id }}" style="color: #0275d8">
-                                                <i class="fa fa-trash"></i></button>
-                                            </a>
+                                <a href="#" class="delete-btn" data-id="{{ $m->plg_id }}" style="color: #0275d8">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                                
                             </td>
                         </tr>
@@ -66,40 +66,40 @@
                 </tbody>
             </table>
             @if(session('success'))
-                                <script>
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success!',
-                                        text: 'Data berhasil ditambahkan.',
-                                        showConfirmButton: false,
-                                        timer: 2000
-                                    });
-                                </script>
-                                @endif
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Data berhasil ditambahkan.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                </script>
+            @endif
 
-                                @if(session('update'))
-                                <script>
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success!',
-                                        text: 'Data berhasil diubah.',
-                                        showConfirmButton: false,
-                                        timer: 2000
-                                    });
-                                </script>
-                                @endif
+            @if(session('update'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Data berhasil diubah.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                </script>
+            @endif
 
             @if(session('delete'))
-                                <script>
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success!',
-                                        text: 'Data berhasil dihapus.',
-                                        showConfirmButton: false,
-                                        timer: 2000
-                                    });
-                                </script>
-                                @endif
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Data berhasil dihapus.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                </script>
+            @endif
 
             <br>
             <br>
@@ -111,23 +111,23 @@
 
 <script>
     $(document).ready(function () {
-    $('.delete-btn').on('click', function (event) {
-        event.preventDefault();
-        var id = $(this).data('id');
-        Swal.fire({
-            title: 'Yakin data ingin dihapus?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect to delete route with the correct parameter
-                window.location.href = "{{ url('pelanggaran/delete') }}/" + id;
-            }
+        $('.delete-btn').on('click', function (event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            Swal.fire({
+                title: 'Yakin data ingin dihapus?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to delete route with the correct parameter
+                    window.location.href = "{{ url('pelanggaran/delete') }}/" + id;
+                }
+            });
         });
     });
-});
 </script>
 
 

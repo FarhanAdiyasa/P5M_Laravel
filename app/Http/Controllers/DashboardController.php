@@ -41,8 +41,8 @@ class DashboardController extends Controller
         // Extracting the 'tanggal' and 'aktifitas' columns from the result
         $formattedData = array_map(function ($item) {
             return [
-                'tanggal' => $item->tanggal,
-                'aktifitas' => $item->aktifitas,
+                'log_tanggal' => $item->log_tanggal,
+                'log_aktifitas' => $item->log_aktifitas,
             ];
         }, $data);
     

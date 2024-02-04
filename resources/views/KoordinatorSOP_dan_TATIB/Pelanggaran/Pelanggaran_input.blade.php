@@ -34,18 +34,18 @@
             <form role="form" action="{{ url('pelanggaran/insert') }}" method="post">
               @csrf
               <div class="form-group">
-                <label for="nama_pelanggaran">Nama Pelanggaran<span style="color: red">*</span></label>
-                <input type="text" class="form-control" name="nama_pelanggaran" pattern="[A-Za-z\s]+" title="Hanya huruf yang diperbolehkan"required>
-                @error('nama_pelanggaran')
+                <label for="plg_nama">Nama Pelanggaran<span style="color: red">*</span></label>
+                <input type="text" class="form-control" name="plg_nama" pattern="[A-Za-z\s]+" title="Hanya huruf yang diperbolehkan" required>
+                @error('plg_nama')
                   <small class="text-danger pl-3">{{ $message }}</small>
                 @enderror
               </div>
               <br>
 
               <div class="form-group">
-                <label for="jam_minus">Jam Minus<span style="color: red">*</span></label>
-                <input type="number" class="form-control" name="jam_minus" required>
-                @error('jam_minus')
+                <label for="plg_jamMinus">Jam Minus<span style="color: red">*</span></label>
+                <input type="number" class="form-control" name="plg_jamMinus" required>
+                @error('plg_jamMinus')
                   <small class="text-danger pl-3">{{ $message }}</small>
                 @enderror
               </div>

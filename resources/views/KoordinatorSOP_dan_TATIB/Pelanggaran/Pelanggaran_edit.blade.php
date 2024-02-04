@@ -31,26 +31,27 @@
                                 <form role="form" action="{{ url('/pelanggaran/update') }}" method="post">
                                     @csrf <!-- Add CSRF token for security -->
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="id" value="{{ $pelanggaran->id }}" hidden>
+                                        <input type="text" class="form-control" name="plg_id" value="{{ $pelanggaran->plg_id }}" hidden>
                                     </div>
                                     <br>
                                     <div class="form-group">
-                                        <label for="nama_pelanggaran">Nama Pelanggaran<span style="color: red">*</span></label>
-                                        <input type="text" class="form-control" name="nama_pelanggaran" value="{{ $pelanggaran->nama_pelanggaran }}" pattern="[A-Za-z\s]+" title="Hanya huruf yang diperbolehkan" required>
+                                        <label for="plg_nama">Nama Pelanggaran<span style="color: red">*</span></label>
+                                        <input type="text" class="form-control" name="plg_nama" value="{{ $pelanggaran->plg_nama }}" pattern="[A-Za-z\s]+" title="Hanya huruf yang diperbolehkan" required>
                                     </div>
                                     <br>
                                     <div class="form-group">
-                                        <label for="jam_minus">Jam Minus<span style="color: red">*</span></label>
-                                        <input type="number" class="form-control" name="jam_minus" value="{{ $pelanggaran->jam_minus }}" required>
+                                        <label for="plg_jamMinus">Jam Minus<span style="color: red">*</span></label>
+                                        <input type="number" class="form-control" name="plg_jamMinus" value="{{ $pelanggaran->plg_jamMinus }}" required>
                                     </div>
                                     <br>
 
                                     <button type="reset" onclick="myFunction()" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-              <script>
-                function myFunction() {
-                  window.location.href = "{{ url('pelanggaran') }}";
-                }
-              </script>                                    &nbsp; &nbsp;
+                                    <script>
+                                      function myFunction() {
+                                        window.location.href = "{{ url('pelanggaran') }}";
+                                      }
+                                    </script>                                    
+                                    &nbsp; &nbsp;
                                     <button type="submit" class="btn btn-primary m-2">Simpan</button>
                                 </form>
                             </div>
