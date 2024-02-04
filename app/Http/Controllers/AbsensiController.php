@@ -40,6 +40,75 @@ class AbsensiController extends Controller
             return response()->json(['error' => 'Template not found.'], 404);
         }
     }
+    public function CetakAbsensiMinus($filterValue, $startDate, $endDate)
+    {
+        ini_set('max_execution_time', 10000); 
+        try {
+            $result = [];
+
+            // Get data from the API
+            $dataMahasiswa2 = $this->getMahasiswaFromApi();
+            $dataMahasiswa = [];
+            
+            foreach ($dataMahasiswa2 as $mahasiswa) {
+                if (isset($mahasiswa['kelas']) && $mahasiswa['kelas'] == $filterValue) {
+                    $dataMahasiswa[] = $mahasiswa;
+                }
+            }
+           
+            $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
+            $endDate = \Carbon\Carbon::createFromFormat('Y-m-d', $endDate);
+            // Get absensi data from the database
+
+           
+            $modifiedEndDate = $endDate->addDay()->startOfDay();
+          //   dd( $startDate);
+          $absensiResult = DB::select("SELECT * FROM GetAbsenViewByDateRange(?, ?) ORDER BY [nim], [tanggal]", [$startDate, $endDate]);
+                $endDate->subDay();
+              foreach ($dataMahasiswa as $mahasiswa) {
+                  foreach ($absensiResult as $absen) {
+              
+                      if ( $mahasiswa['nim'] == $absen->nim) {
+                      
+                          $absensiData = [
+                              'nim' => $absen->nim,
+                              'nama' => $mahasiswa['nama'],
+                              'tanggal' => $absen->tanggal,
+                              'inTime' => $absen->in,
+                              'outTime' => $absen->out,
+                          ];
+      
+                          $result[] = $absensiData;
+                      
+                      }
+                  }
+                      
+              }
+              // dd($result);
+            $libur = "";
+            $modifiedEndDate2 = $endDate->addDay();
+                  $libur = Libur::whereBetween('lbr_tanggal', [$startDate, $modifiedEndDate2])
+                  ->get();
+                  $endDate->subDay();
+            $kelas = $filterValue;
+            $tanggalMulai = $startDate;
+            $tanggalSelesai = $endDate;
+          //   dd($result);
+            return view('KoordinatorSOP_dan_TATIB/Cetak/CetakLaporanJamMinusAbsensi', compact(
+                'result',
+                'dataMahasiswa',
+                'kelas',
+                'libur',
+                'tanggalMulai',
+                'startDate',
+                'tanggalSelesai',
+            ));
+
+        } catch (\Exception $ex) {
+          dd($ex->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
     
     public function import(Request $request)
 {

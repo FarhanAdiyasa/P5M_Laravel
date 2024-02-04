@@ -79,6 +79,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/P5M/LoadPartialViewAbsen/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensi'])->name('partial.absen');
     Route::get('/P5M/LoadPartialViewAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensiMinus'])->name('partial.absen.minus');
     Route::get('/P5M/LoadPartialView/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialView'])->name('partial.p5m');
+    Route::get('/P5M/CetakAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'CetakAbsensiMinus'])->name('cetak.absen.minus');
+    Route::get('/P5M/Cetak/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'Cetak'])->name('partial.p5m');
     
     Route::any('p5m', [P5MController::class, 'p5msop'])->name('p5m');
     

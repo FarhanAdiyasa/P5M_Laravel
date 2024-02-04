@@ -240,6 +240,13 @@ $sub = 0;
 </tbody>
 </table>
 </div>
+<button>Export Excel {{$kelas}} {{$startDate}} {{$tanggalSelesai}}</button>
+{{-- </a>
+<a href="{{route('cetak.absen.minus', ['filterValue'=>$kelas, 'tanggalMulai'=>$startDate, 'endDate'=>$tanggalSelesai])}}">
+    <button>Export Excel {{$kelas}} {{$startDate}} {{$tanggalSelesai}}</button>
+</a> --}}
+
+
 </div>
 
 <script>
