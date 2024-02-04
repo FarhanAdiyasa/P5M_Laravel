@@ -43,6 +43,7 @@ class AbsensiController extends Controller
     
     public function import(Request $request)
 {
+    ini_set('max_execution_time', 120); 
     try {
         $uploaddir = 'excel/';
         $uploadfile = $uploaddir . basename($_FILES['file']['name']); 
@@ -71,11 +72,11 @@ class AbsensiController extends Controller
                 $nim = $data[$i][3];
                 $waktu = \Carbon\Carbon::parse($data[$i][0]);
 
-                $absenExists = Absen::where('nim', $nim)->where('waktu', $waktu)->exists();
+                $absenExists = Absen::where('abs_nim', $nim)->where('abs_waktu', $waktu)->exists();
                 if (!$absenExists) {
                     $absen = new Absen;
-                    $absen->nim = $nim;
-                    $absen->waktu = $waktu;
+                    $absen->abs_nim = $nim;
+                    $absen->abs_waktu = $waktu;
                     $absen->save();
                     $importedRows++;
                 }
@@ -148,6 +149,7 @@ public function getImportProgress(Request $request)
 
       public function loadPartialView($filterValue, $startDate, $endDate)
       {
+        ini_set('max_execution_time', 10000); 
         try {
             $result = [];
   
@@ -197,6 +199,7 @@ public function getImportProgress(Request $request)
         }
       public function loadPartialViewAbsensi($filterValue, $startDate, $endDate)
       {
+        ini_set('max_execution_time', 10000); 
           try {
               $result = [];
   
@@ -241,7 +244,7 @@ public function getImportProgress(Request $request)
                 // dd($result);
               $libur = "";
               $modifiedEndDate2 = $endDate->addDay();
-                    $libur = Libur::whereBetween('tanggal', [$startDate, $modifiedEndDate2])
+                    $libur = Libur::whereBetween('lbr_tanggal', [$startDate, $modifiedEndDate2])
                     ->get();
                     $endDate->subDay();
               $kelas = $filterValue;
@@ -265,6 +268,7 @@ public function getImportProgress(Request $request)
       }
       public function loadPartialViewAbsensiMinus($filterValue, $startDate, $endDate)
       {
+        ini_set('max_execution_time', 10000); 
           try {
               $result = [];
   
@@ -284,7 +288,6 @@ public function getImportProgress(Request $request)
 
              
               $modifiedEndDate = $endDate->addDay()->startOfDay();
-            //   dd( $startDate);
             $absensiResult = DB::select("SELECT * FROM GetAbsenViewByDateRange(?, ?) ORDER BY [nim], [tanggal]", [$startDate, $endDate]);
                   $endDate->subDay();
                 foreach ($dataMahasiswa as $mahasiswa) {
@@ -306,16 +309,14 @@ public function getImportProgress(Request $request)
                     }
                         
                 }
-                // dd($result);
               $libur = "";
               $modifiedEndDate2 = $endDate->addDay();
-                    $libur = Libur::whereBetween('tanggal', [$startDate, $modifiedEndDate2])
+                    $libur = Libur::whereBetween('lbr_tanggal', [$startDate, $modifiedEndDate2])
                     ->get();
                     $endDate->subDay();
               $kelas = $filterValue;
               $tanggalMulai = $startDate;
               $tanggalSelesai = $endDate;
-            //   dd($result);
               return view('KoordinatorSOP_dan_TATIB/Laporan/absensi_minus_partial', compact(
                   'result',
                   'dataMahasiswa',
@@ -327,8 +328,7 @@ public function getImportProgress(Request $request)
               ));
 
           } catch (\Exception $ex) {
-            dd($ex->getMessage());
-              return response()->json(['error' => 'Internal Server Error'], 500);
+              return response()->json(['error' => $ex->getMessage()], 500);
           }
       }
   
