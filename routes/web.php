@@ -36,7 +36,7 @@ Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actio
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name("idx");
 
-Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
+Route::middleware(['png_role:KOORDINATOR SOP dan TATIB'])->group(function () {
     Route::get('pengguna', [PenggunaController::class, 'index'])->name("p.index");
     Route::get('/pengguna/tambah',[PenggunaController::class,'pengguna_input'])->name("p.create");
     Route::post('/pengguna/insert',[PenggunaController::class,'save']);
@@ -58,7 +58,7 @@ Route::middleware(['role:KOORDINATOR SOP dan TATIB'])->group(function () {
     Route::get('/libur', [LiburController::class, 'libur']);
     Route::post('/import_absensi',[AbsensiController::class,'import'])->name('import');
     Route::get('/getImportProgress', [AbsensiController::class, 'getImportProgress'])->name('progress');
-
+    Route::post('/import',[AbsensiController::class,'import']);
     Route::get('/download/template', [AbsensiController::class, 'downloadTemplate'])->name('download.template');
 
 });
@@ -79,6 +79,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/P5M/LoadPartialViewAbsen/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensi'])->name('partial.absen');
     Route::get('/P5M/LoadPartialViewAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialViewAbsensiMinus'])->name('partial.absen.minus');
     Route::get('/P5M/LoadPartialView/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'loadPartialView'])->name('partial.p5m');
+    Route::get('/P5M/CetakAbsenMinus/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'CetakAbsensiMinus'])->name('cetak.absen.minus');
+    Route::get('/P5M/Cetak/{filterValue}/{startDate}/{endDate}', [AbsensiController::class, 'Cetak'])->name('partial.p5m');
     
     Route::any('p5m', [P5MController::class, 'p5msop'])->name('p5m');
     
